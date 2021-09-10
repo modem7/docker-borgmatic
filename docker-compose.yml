@@ -1,8 +1,8 @@
-version: '3'
+version: '2.4'
 services:
   borgmatic:
-    image: b3vis/borgmatic
-    container_name: borgmatic
+    image: modem7/borgmatic-docker
+    container_name: Borgmatic
     volumes:
       - ${VOLUME_SOURCE}:/mnt/source:ro           # backup source
       - ${VOLUME_TARGET}:/mnt/borg-repository     # backup target

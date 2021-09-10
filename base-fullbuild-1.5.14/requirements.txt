@@ -1,0 +1,4 @@
+pip==20.2.4
+borgbackup==1.1.16
+borgmatic==1.5.14
+llfuse==1.3.8

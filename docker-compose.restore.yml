@@ -1,16 +1,25 @@
-version: '3'
-services:
-  borgmatic:
-    container_name: borg-restore
+version: "2.4"
 
+services:
+
+  borgmaticrestore:
+    container_name: Borg-restore
+    volumes:
+      - /mnt/samba/OldHD/ServerBackup/Borgmatic/:/mnt/borg-repository
+      - /home/alex/DockerApps/Borgmatic/borgmatic.d/:/etc/borgmatic.d/
+      - /home/alex/DockerApps/Borgmatic/.config/borg/:/root/.config/borg
+      - /home/alex/DockerApps/Borgmatic/.ssh/:/root/.ssh
+      - /home/alex/DockerApps/Borgmatic/.cache/borg/:/root/.cache/borg
+      - /dev/shm/Borgrestore:/RestoreMount
+      - /var/hda/files/drives/drive14/Test/Restore:/Restore
     cap_add:
       - SYS_ADMIN
-
     security_opt:
       - apparmor:unconfined
       - label:disable
-
+    environment:
+      - TZ=$TZ
     devices:
       - /dev/fuse:/dev/fuse
-
     command: /bin/sh
+    image: modem7/borgmatic-docker

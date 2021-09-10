@@ -1,9 +1,7 @@
 FROM alpine:3.13 as builder
-LABEL mainainer='b3vis'
-ARG BORG_VERSION=1.1.17
-ARG BORGMATIC_VERSION=1.5.18
-ARG LLFUSE_VERSION=1.4.1
-RUN apk upgrade --no-cache \
+COPY requirements.txt /requirements.txt
+RUN apk update --no-cache \
+    && apk upgrade --no-cache \
     && apk add --no-cache \
     alpine-sdk \
     python3-dev \
@@ -15,15 +13,14 @@ RUN apk upgrade --no-cache \
     fuse-dev \
     attr-dev \
     py3-wheel \
-    && pip3 install --upgrade pip \
-    && pip3 install --upgrade borgbackup==${BORG_VERSION} \
-    && pip3 install --upgrade borgmatic==${BORGMATIC_VERSION} \
-    && pip3 install --upgrade llfuse==${LLFUSE_VERSION}
+    && pip3 install -U -r requirements.txt
 
 FROM alpine:3.13
-LABEL mainainer='b3vis'
+LABEL mainainer='modem7'
+ARG PYTHON_VERSION=3.8
 COPY entry.sh /entry.sh
-RUN apk upgrade --no-cache \
+RUN apk update --no-cache \
+    && apk upgrade --no-cache \
     && apk add --no-cache \
     tzdata \
     sshfs \
@@ -44,7 +41,7 @@ VOLUME /etc/borgmatic.d
 VOLUME /root/.config/borg
 VOLUME /root/.ssh
 VOLUME /root/.cache/borg
-COPY --from=builder /usr/lib/python3.8/site-packages /usr/lib/python3.8/
+COPY --from=builder /usr/lib/python${PYTHON_VERSION}/site-packages /usr/lib/python${PYTHON_VERSION}/
 COPY --from=builder /usr/bin/borg /usr/bin/
 COPY --from=builder /usr/bin/borgfs /usr/bin/
 COPY --from=builder /usr/bin/borgmatic /usr/bin/

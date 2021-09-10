@@ -1,17 +1,34 @@
 # Borgmatic Container
-<img src="https://github.com/witten/borgmatic/raw/master/docs/static/borgmatic.png" />
-
-[![](https://images.microbadger.com/badges/image/b3vis/borgmatic.svg)](https://microbadger.com/images/b3vis/borgmatic "Get your own image badge on microbadger.com") <img src="https://img.shields.io/docker/pulls/b3vis/borgmatic.svg" />
+![Docker Pulls](https://img.shields.io/docker/pulls/modem7/borgmatic-docker) 
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/modem7/borgmatic-docker/latest) 
+[![Build Status](https://drone.modem7.com/api/badges/modem7/docker-borgmatic/status.svg)](https://drone.modem7.com/modem7/docker-borgmatic)
+![GitHub last commit](https://img.shields.io/github/last-commit/modem7/docker-borgmatic)
+[![User Guide](https://img.shields.io/badge/User_Guide-OmegaWiki-informational?style=flat&logo=bookstack)](https://www.modem7.com/books/docker-backup/page/backup-docker-using-borgmatic)
 
 ### Description
+Multiarch fork of b3vis/borgmatic with latest versions so you can run Docker commands. 
 
-A little container I wrote to automate my [Borgbackup](https://github.com/borgbackup)'s using the excellent [Borgmatic](https://github.com/witten/borgmatic).
+There are also tags with Docker-CLI installed. Useful for container stop/start scripts. 
+
+### Readme
+
+A little container based on b3vis's work to automate my [Borgbackups](https://github.com/borgbackup) using the excellent [Borgmatic](https://github.com/witten/borgmatic).
 
 It uses cron to run the backups at a time you can configure in `data/borgmatic.d/crontab.txt`.
 
+# Tags
+| Tag | Description |
+| :----: | --- |
+| Latest | Latest version of Borgmatic|
+| dockercli | Borgmatic with Docker-CLI baked in. |
+| liveinstall | Borgmatic, with Docker-CLI downloaded and installed on container startup. |
+| 1.5.xx | Specific versions of Borgmatic |
+
 ### Usage
 
-To set your backup timing and configuration, you will need to create [crontab.txt](data/borgmatic.d/crontab.txt) and your borgmatic [config.yaml](data/borgmatic.d/config.yaml) and mount these files into the `/etc/borgmatic.d/` directory. When the container starts it creates the crontab from `crontab.txt` and starts crond. By cloning this repo in `/opt/docker/`, you will have a working setup to get started. 
+Please look at this [guide](https://www.modem7.com/books/docker-backup/page/backup-docker-using-borgmatic) to help you run this container.
+
+To set your backup timing and configuration, you will need to create [crontab.txt](https://github.com/modem7/docker-borgmatic/blob/master/base-fullbuild/data/borgmatic.d/crontab.txt) and your borgmatic [config.yaml](https://github.com/modem7/docker-borgmatic/blob/master/base-fullbuild/data/borgmatic.d/config.yaml) and mount these files into the `/etc/borgmatic.d/` directory. When the container starts it creates the crontab from `crontab.txt` and starts crond. By cloning this repo in `/opt/docker/`, you will have a working setup to get started. 
 
 If using remote repositories mount your .ssh to /root/.ssh within the container.
 
