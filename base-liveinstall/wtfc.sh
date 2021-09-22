@@ -90,9 +90,9 @@ wait_for_wrapper() {
 
     # In order to support SIGINT during timeout: http://unix.stackexchange.com/a/57692
     if ([ "${QUIET}" -eq 1 ]); then
-        eval $TIMEOUT_CMD $TIMEOUT_FLAG $TIMEOUT $0 --quiet --child --status=$STATUS --timeout=$TIMEOUT $CMD &
+        eval $TIMEOUT_CMD $TIMEOUT_FLAG $TIMEOUT $0 --quiet --child --status=$STATUS --timeout=$TIMEOUT \"$CMD\" &
     else
-        eval $TIMEOUT_CMD $TIMEOUT_FLAG $TIMEOUT $0 --child --status=$STATUS --timeout=$TIMEOUT $CMD &
+        eval $TIMEOUT_CMD $TIMEOUT_FLAG $TIMEOUT $0 --child --status=$STATUS --timeout=$TIMEOUT \"$CMD\" &
     fi
     PID=$!
     trap "kill -INT -$PID" INT
