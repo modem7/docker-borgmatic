@@ -38,7 +38,7 @@ steps:
       from_secret: docker_password
     tags:
       - latest
-      - 1.5.18
+      - 1.5.19
 
 - name: slack
   image: themaz/drone-slack
@@ -50,7 +50,7 @@ steps:
 
 trigger:
   event:
-    - promote
+    - custom
 
 ---
 
@@ -92,6 +92,8 @@ steps:
       from_secret: docker_password
     tags:
       - dockercli
+  depends_on:
+    - FullBuild
 
 - name: slack
   image: themaz/drone-slack
@@ -145,6 +147,8 @@ steps:
       from_secret: docker_password
     tags:
       - liveinstall
+  depends_on:
+    - FullBuild
 
 - name: slack
   image: themaz/drone-slack
