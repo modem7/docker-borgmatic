@@ -92,8 +92,6 @@ steps:
       from_secret: docker_password
     tags:
       - dockercli
-  depends_on:
-    - FullBuild
 
 - name: slack
   image: themaz/drone-slack
@@ -106,6 +104,9 @@ steps:
 trigger:
   event:
     - custom
+
+depends_on:
+  - FullBuild
 
 ---
 
@@ -147,8 +148,6 @@ steps:
       from_secret: docker_password
     tags:
       - liveinstall
-  depends_on:
-    - FullBuild
 
 - name: slack
   image: themaz/drone-slack
@@ -161,3 +160,6 @@ steps:
 trigger:
   event:
     - custom
+
+depends_on:
+  - FullBuild
