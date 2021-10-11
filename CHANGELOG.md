@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
  
+## [Liveinstall](https://hub.docker.com/layers/164828783/modem7/borgmatic-docker/liveinstall/images/sha256-9d53d2f4f00b7cf1e468db4a1ec10ac3698e0e61a7c0e666d6ac7954fc7f3aa2?context=repo) - 2021-10-11
+  
+### Changed
+
+- Updated Dockerfile based on the latest version.
+
+## [DockerCLI](https://hub.docker.com/layers/164828805/modem7/borgmatic-docker/dockercli/images/sha256-992eeb053c59ad5cc953a4e96c3d702d32bb903b419463a27df9002e8a7f58fd?context=repo) - 2021-10-11
+  
+### Changed
+
+- Updated Dockerfile based on the latest version.
+
+## [1.5.19](https://hub.docker.com/layers/164830365/modem7/borgmatic-docker/1.5.18/images/sha256-12ad2daab8a13192908d9b5f37d7a5c0df1e76c87598bbf330f27c0fc11f78c4?context=repo) - 2021-10-11
+  
+### Changed
+ 
+- Updated to latest dependencies
+
+
 ## [Liveinstall](https://hub.docker.com/layers/164828783/modem7/borgmatic-docker/liveinstall/images/sha256-9d53d2f4f00b7cf1e468db4a1ec10ac3698e0e61a7c0e666d6ac7954fc7f3aa2?context=repo) - 2021-09-10
   
 ### Added
