@@ -10,21 +10,29 @@ updates:
     directory: "/base-fullbuild" # Location of package manifests
     schedule:
       interval: "daily"
+    assignees:
+      - "modem7"
 
   # Maintain dependencies for PIP
   - package-ecosystem: "pip"
     directory: "/base-fullbuild"
     schedule:
       interval: "daily"
+    assignees:
+      - "modem7"
 
   # Maintain dependencies for Docker
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/base-dockercli" # Location of package manifests
     schedule:
       interval: "daily"
+    assignees:
+      - "modem7"
 
   # Maintain dependencies for Docker
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/base-liveinstall" # Location of package manifests
     schedule:
       interval: "daily"
+    assignees:
+      - "modem7"
