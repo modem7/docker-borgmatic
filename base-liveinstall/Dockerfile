@@ -1,4 +1,4 @@
-FROM modem7/borgmatic-docker:1.5.21
+FROM modem7/borgmatic-docker:1.5.20
 COPY entry.sh /entry.sh
 COPY wtfc.sh /wtfc.sh
 RUN rm -rf /var/cache/apk/* \
