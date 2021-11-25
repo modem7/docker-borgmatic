@@ -5,17 +5,6 @@
 
 version: 2
 updates:
-  # Update Github Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      # Check for updates to GitHub Actions every weekday
-      interval: "daily"
-      time: "07:00"
-      timezone: "Europe/London"
-    assignees:
-      - "modem7"
-
   # Maintain dependencies for Docker
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/base-fullbuild" # Location of package manifests
