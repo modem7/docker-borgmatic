@@ -1,4 +1,4 @@
-FROM alpine:3.14 as builder
+FROM alpine:3.15.0 as builder
 COPY requirements.txt /requirements.txt
 RUN apk update --no-cache \
     && apk upgrade --no-cache \
@@ -15,7 +15,7 @@ RUN apk update --no-cache \
     py3-wheel \
     && pip3 install -U -r requirements.txt
 
-FROM alpine:3.14
+FROM alpine:3.15.0
 LABEL mainainer='modem7'
 ARG PYTHON_VERSION=3.9
 COPY entry.sh /entry.sh
