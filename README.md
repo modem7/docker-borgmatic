@@ -10,6 +10,10 @@ Multiarch fork of b3vis/borgmatic with latest versions so you can run Docker com
 
 There are also tags with Docker-CLI installed. Useful for container stop/start scripts. 
 
+### Dockerhub
+
+[modem7/borgmatic-docker](https://hub.docker.com/repository/docker/modem7/borgmatic-docker)
+
 ### Readme
 
 A little container based on b3vis's work to automate my [Borgbackups](https://github.com/borgbackup) using the excellent [Borgmatic](https://github.com/witten/borgmatic).
