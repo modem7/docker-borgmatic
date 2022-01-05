@@ -1,7 +1,4 @@
 override:
   style:
-    - DL3007
-    - DL3013
     - DL3018
     - DL3042
-    - DL3006

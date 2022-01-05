@@ -1,7 +1,7 @@
 FROM alpine:3.15.0 as builder
 COPY requirements.txt /requirements.txt
-RUN apk update --no-cache \
-    && apk upgrade --no-cache \
+RUN apk update \
+    && apk upgrade \
     && apk add --no-cache \
     alpine-sdk \
     python3-dev \
@@ -13,14 +13,14 @@ RUN apk update --no-cache \
     fuse-dev \
     attr-dev \
     py3-wheel \
-    && pip3 install -U -r requirements.txt
+    && pip3 install --no-cache-dir -U -r requirements.txt
 
 FROM alpine:3.15.0
 LABEL mainainer='modem7'
 ARG PYTHON_VERSION=3.9
 COPY entry.sh /entry.sh
-RUN apk update --no-cache \
-    && apk upgrade --no-cache \
+RUN apk update \
+    && apk upgrade \
     && apk add --no-cache \
     tzdata \
     sshfs \
@@ -34,6 +34,7 @@ RUN apk update --no-cache \
     mariadb-client \
     curl \
     && rm -rf /var/cache/apk/* \
+              /.cache \
     && chmod 755 /entry.sh
 VOLUME /mnt/source
 VOLUME /mnt/borg-repository
@@ -41,6 +42,7 @@ VOLUME /etc/borgmatic.d
 VOLUME /root/.config/borg
 VOLUME /root/.ssh
 VOLUME /root/.cache/borg
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borgmatic --version || exit 1
 COPY --from=builder /usr/lib/python${PYTHON_VERSION}/site-packages /usr/lib/python${PYTHON_VERSION}/
 COPY --from=builder /usr/bin/borg /usr/bin/
 COPY --from=builder /usr/bin/borgfs /usr/bin/
@@ -48,5 +50,4 @@ COPY --from=builder /usr/bin/borgmatic /usr/bin/
 COPY --from=builder /usr/bin/generate-borgmatic-config /usr/bin/
 COPY --from=builder /usr/bin/upgrade-borgmatic-config /usr/bin/
 COPY --from=builder /usr/bin/validate-borgmatic-config /usr/bin/
-HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borgmatic --version || exit 1
 CMD ["/entry.sh"]
