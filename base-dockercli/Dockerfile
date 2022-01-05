@@ -1,4 +1,4 @@
-FROM modem7/borgmatic-docker:1.5.21
+FROM modem7/borgmatic-docker:latest
 COPY entry.sh /entry.sh
 RUN apk update \
     && apk add --no-cache \
