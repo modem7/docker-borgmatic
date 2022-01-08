@@ -48,4 +48,5 @@ COPY --from=builder /usr/bin/borgmatic /usr/bin/
 COPY --from=builder /usr/bin/generate-borgmatic-config /usr/bin/
 COPY --from=builder /usr/bin/upgrade-borgmatic-config /usr/bin/
 COPY --from=builder /usr/bin/validate-borgmatic-config /usr/bin/
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borgmatic --version || exit 1
 CMD ["/entry.sh"]
