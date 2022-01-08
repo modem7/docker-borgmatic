@@ -10,7 +10,6 @@ updates:
     directory: "/base-fullbuild" # Location of package manifests
     schedule:
       interval: "daily"
-      time: "07:00"
       timezone: "Europe/London"
     assignees:
       - "modem7"
@@ -20,27 +19,6 @@ updates:
     directory: "/base-fullbuild"
     schedule:
       interval: "daily"
-      time: "07:00"
-      timezone: "Europe/London"
-    assignees:
-      - "modem7"
-
-  # Maintain dependencies for Docker
-  - package-ecosystem: "docker" # See documentation for possible values
-    directory: "/base-dockercli" # Location of package manifests
-    schedule:
-      interval: "daily"
-      time: "07:30"
-      timezone: "Europe/London"
-    assignees:
-      - "modem7"
-
-  # Maintain dependencies for Docker
-  - package-ecosystem: "docker" # See documentation for possible values
-    directory: "/base-liveinstall" # Location of package manifests
-    schedule:
-      interval: "daily"
-      time: "07:30"
       timezone: "Europe/London"
     assignees:
       - "modem7"
