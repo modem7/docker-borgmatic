@@ -29,9 +29,7 @@ steps:
     context: base-fullbuild/
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
       - linux/amd64
-      - linux/arm/v6
-      - linux/arm/v7
-      - linux/arm64/v8
+      - linux/arm64
     username:
       from_secret: docker_username
     password:
@@ -76,9 +74,7 @@ steps:
     context: base-dockercli/
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
       - linux/amd64
-      - linux/arm/v6
-      - linux/arm/v7
-      - linux/arm64/v8
+      - linux/arm64
     username:
       from_secret: docker_username
     password:
@@ -125,9 +121,7 @@ steps:
     context: base-liveinstall/
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
       - linux/amd64
-      - linux/arm/v6
-      - linux/arm/v7
-      - linux/arm64/v8
+      - linux/arm64
     username:
       from_secret: docker_username
     password:
