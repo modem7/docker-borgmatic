@@ -1,4 +1,5 @@
 FROM alpine:3.15.0 as builder
+LABEL mainainer='modem7'
 COPY requirements.txt /requirements.txt
 RUN apk update \
     && apk upgrade \
@@ -32,7 +33,9 @@ RUN apk update \
     libacl \
     postgresql-client \
     mariadb-client \
+    mongodb-tools \
     curl \
+    findmnt \
     && rm -rf /var/cache/apk/* \
               /.cache \
     && chmod 755 /entry.sh
