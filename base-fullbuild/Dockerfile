@@ -7,6 +7,7 @@ RUN apk update \
     alpine-sdk \
     python3-dev \
     py3-pip \
+	py3-pkgconfig \
     openssl-dev \
     lz4-dev \
     acl-dev \
