@@ -1,4 +1,4 @@
 pip==22.0.4
 llfuse==1.4.1
 borgbackup==1.2.0
-borgmatic==1.5.23
+borgmatic==1.5.24
