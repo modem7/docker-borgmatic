@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Updated Borg - 2021-11-22
 
+- Updated Borg backup from v1.1.17 to v1.2.0.
+
 ## [1.5.23] - 2021-02-10
 
 ## [1.5.22] - 2021-01-05
