@@ -4,17 +4,26 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
  
-## [1.5.21] - 2021-11-22
+## [1.5.24] - 2021-03-14
+
+- Updated to latest dependencies.
+- Updated Changelog
+
+## Updated Borg - 2021-11-22
+
+## [1.5.23] - 2021-02-10
+
+## [1.5.22] - 2021-01-05
   
 ### Changed
  
-- Updated to latest dependencies
+- Updated to latest dependencies.
 
 ## [1.5.20] - 2021-10-11
   
 ### Changed
  
-- Updated to latest dependencies
+- Updated to latest dependencies.
 
 ## [Liveinstall] - 2021-10-11
   
