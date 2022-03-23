@@ -23,7 +23,7 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v2
         with:
-          context: ./base-fullbuild
-          file: ./Dockerfile
+          context: /base-fullbuild
+          file: Dockerfile
           pull: false
           push: false
