@@ -20,6 +20,13 @@ RUN apk update \
 FROM alpine:3.15.3
 LABEL mainainer='modem7'
 ARG PYTHON_VERSION=3.9
+VOLUME /mnt/source
+VOLUME /mnt/borg-repository
+VOLUME /etc/borgmatic.d
+VOLUME /root/.config/borg
+VOLUME /root/.ssh
+VOLUME /root/.cache/borg
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borgmatic --version || exit 1
 COPY entry.sh /entry.sh
 RUN apk update \
     && apk upgrade \
@@ -40,13 +47,6 @@ RUN apk update \
     && rm -rf /var/cache/apk/* \
               /.cache \
     && chmod 755 /entry.sh
-VOLUME /mnt/source
-VOLUME /mnt/borg-repository
-VOLUME /etc/borgmatic.d
-VOLUME /root/.config/borg
-VOLUME /root/.ssh
-VOLUME /root/.cache/borg
-HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borgmatic --version || exit 1
 COPY --from=builder /usr/lib/python${PYTHON_VERSION}/site-packages /usr/lib/python${PYTHON_VERSION}/
 COPY --from=builder /usr/bin/borg /usr/bin/
 COPY --from=builder /usr/bin/borgfs /usr/bin/
