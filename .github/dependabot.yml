@@ -13,6 +13,8 @@ updates:
       timezone: "Europe/London"
     assignees:
       - "modem7"
+    labels:
+      - "dependencies"
 
   # Maintain dependencies for PIP
   - package-ecosystem: "pip"
@@ -22,6 +24,8 @@ updates:
       timezone: "Europe/London"
     assignees:
       - "modem7"
+    labels:
+      - "dependencies"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -30,3 +34,5 @@ updates:
       interval: "daily"
     assignees:
       - "modem7"
+    labels:
+      - "dependencies"
