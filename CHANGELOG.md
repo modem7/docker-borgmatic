@@ -3,22 +3,38 @@
 All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
+
+## 2021-04-05
+
+### Changed
+
+- Updated alpine to 3.15.4
  
 ## 2021-03-29
 
-- Updated dependencies
+### Changed
 
-## [1.5.24-1.2.0] - 2021-03-14
+- Updated alpine to 3.15.3
+
+## 2021-03-14
+
+### Changed
 
 - Updated to latest dependencies.
 - Updated Changelog
 
 ## [1.5.24-1.2.0] - 2021-11-22
 
+### Changed
+
 - Updated Borg backup from v1.1.17 to v1.2.0.
 - Updated tags to better follow both versions of Borg and Borgmatic
 
 ## [1.5.23] - 2021-02-10
+
+### Changed
+
+- Updated Borgmatic to 1.5.23
 
 ## [1.5.22] - 2021-01-05
   
