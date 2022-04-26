@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2021-04-26
+
+### Changed
+
+- Updated Borgmatic from v1.5.24 to v1.6.0. Read the [change notes](https://github.com/borgmatic-collective/borgmatic/releases/tag/1.6.0)
+
 ## 2021-04-05
 
 ### Changed
