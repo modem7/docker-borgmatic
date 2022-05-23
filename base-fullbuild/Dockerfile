@@ -9,6 +9,7 @@ RUN apk update \
     py3-pip \
 	py3-pkgconfig \
     openssl-dev \
+    logrotate \
     lz4-dev \
     acl-dev \
     linux-headers \
