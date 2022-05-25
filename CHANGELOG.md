@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2021-05-25
+
+### Changed
+
+- Updated Borgmatic from v1.6.0 to v1.6.1. Read the [change notes](https://github.com/borgmatic-collective/borgmatic/releases/tag/1.6.1)
+- Updated Dockerfile to chmod script on COPY rather than via a separate chmod step. 
+- Updated dependencies. 
+
 ## 2021-04-26
 
 ### Changed
