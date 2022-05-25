@@ -82,32 +82,6 @@ steps:
     tags:
       - dockercli
 
-- name: slack
-  image: themaz/drone-slack
-  settings:
-    webhook:
-      from_secret: slack_hook
-  when:
-    status: [ success, failure ]
-
-trigger:
-  event:
-    - custom
-
-depends_on:
-  - FullBuild
-
----
-
-kind: pipeline
-type: docker
-name: LiveInstall
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
 - name: LiveInstall  
   image: thegeeklab/drone-docker-buildx
   privileged: true
