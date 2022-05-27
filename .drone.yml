@@ -54,7 +54,7 @@ trigger:
 
 kind: pipeline
 type: docker
-name: dockercli
+name: Dockercli
 
 platform:
   os: linux
