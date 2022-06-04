@@ -1,20 +1,37 @@
+# syntax = docker/dockerfile:1
+
 FROM alpine:3.16 as builder
 LABEL mainainer='modem7'
 COPY requirements.txt /requirements.txt
-RUN apk add --update --no-cache \
+COPY /wheels /wheels
+# mostly taken from https://github.com/borgbackup/borg/blob/1.1.15/Vagrantfile#L10-L26
+RUN apk update && apk add --update --no-cache \
     alpine-sdk \
-    python3-dev \
-    py3-pip \
+    linux-headers \
 	py3-pkgconfig \
+    py3-wheel \
+    py3-xxhash \
+    libxxhash \
+    zstd \
+    py3-setuptools \
+    py3-pip \
+    python3-dev \
     openssl-dev \
-    logrotate \
     lz4-dev \
     acl-dev \
-    linux-headers \
     fuse-dev \
     attr-dev \
-    py3-wheel \
-    && pip3 install --no-cache-dir -U -r requirements.txt
+    zlib-dev \
+    bzip2-dev \
+    ncurses-dev \
+    readline-dev \
+    xz-dev \
+    sqlite-dev \
+    libffi-dev \
+    && python3 -m pip install --no-cache-dir -U pip setuptools wheel
+
+RUN python3 -m pip install -v --no-cache-dir -U -f wheels/ -r requirements.txt \
+    && rm -rf wheels/
 
 FROM alpine:3.16
 LABEL mainainer='modem7'
@@ -33,8 +50,11 @@ RUN apk add --update --no-cache \
     sshfs \
     python3 \
     openssl \
+    libxxhash \
+    zstd \
     fuse \
     ca-certificates \
+    logrotate \
     lz4-libs \
     libacl \
     postgresql-client \
@@ -49,11 +69,11 @@ RUN apk add --update --no-cache \
     /var/cache/apk/* \
     /.cache
 COPY --from=builder /usr/lib/python${PYTHON_VERSION}/site-packages /usr/lib/python${PYTHON_VERSION}/
-COPY --from=builder /usr/bin/borg /usr/bin/
-COPY --from=builder /usr/bin/borgfs /usr/bin/
-COPY --from=builder /usr/bin/borgmatic /usr/bin/
-COPY --from=builder /usr/bin/generate-borgmatic-config /usr/bin/
-COPY --from=builder /usr/bin/upgrade-borgmatic-config /usr/bin/
-COPY --from=builder /usr/bin/validate-borgmatic-config /usr/bin/
+COPY --chmod=755 --from=builder /usr/bin/borg /usr/bin/
+COPY --chmod=755 --from=builder /usr/bin/borgfs /usr/bin/
+COPY --chmod=755 --from=builder /usr/bin/borgmatic /usr/bin/
+COPY --chmod=755 --from=builder /usr/bin/generate-borgmatic-config /usr/bin/
+COPY --chmod=755 --from=builder /usr/bin/upgrade-borgmatic-config /usr/bin/
+COPY --chmod=755 --from=builder /usr/bin/validate-borgmatic-config /usr/bin/
 RUN borgmatic --bash-completion > /usr/share/bash-completion/completions/borgmatic && echo "source /etc/profile.d/bash_completion.sh" > /root/.bashrc
 CMD ["/entry.sh"]
