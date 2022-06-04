@@ -1,3 +1,5 @@
+# syntax = docker/dockerfile:1
+
 FROM modem7/borgmatic-docker:latest
 COPY entry.sh /entry.sh
 COPY wtfc.sh /wtfc.sh
