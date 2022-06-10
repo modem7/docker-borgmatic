@@ -3,7 +3,6 @@
 FROM alpine:3.16 as builder
 LABEL mainainer='modem7'
 COPY requirements.txt /requirements.txt
-COPY /wheels /wheels
 # mostly taken from https://github.com/borgbackup/borg/blob/1.1.15/Vagrantfile#L10-L26
 RUN apk update && apk add --update --no-cache \
     alpine-sdk \
@@ -30,8 +29,7 @@ RUN apk update && apk add --update --no-cache \
     libffi-dev \
     && python3 -m pip install --no-cache-dir -U pip setuptools wheel
 
-RUN python3 -m pip install -v --no-cache-dir -U -r requirements.txt \
-    && rm -rf wheels/
+RUN python3 -m pip install -v --no-cache-dir -U -r requirements.txt
 
 FROM alpine:3.16
 LABEL mainainer='modem7'
