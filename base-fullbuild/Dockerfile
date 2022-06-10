@@ -30,7 +30,7 @@ RUN apk update && apk add --update --no-cache \
     libffi-dev \
     && python3 -m pip install --no-cache-dir -U pip setuptools wheel
 
-RUN python3 -m pip install -v --no-cache-dir -U -f wheels/ -r requirements.txt \
+RUN python3 -m pip install -v --no-cache-dir -U -r requirements.txt \
     && rm -rf wheels/
 
 FROM alpine:3.16
