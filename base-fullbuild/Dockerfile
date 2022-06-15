@@ -7,7 +7,7 @@ COPY requirements.txt /requirements.txt
 RUN apk update && apk add --update --no-cache \
     alpine-sdk \
     linux-headers \
-	py3-pkgconfig \
+    py3-pkgconfig \
     py3-wheel \
     py3-xxhash \
     libxxhash \
