@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - base-fullbuild/Dockerfile
+      - base-fullbuild/requirements.txt
   pull_request:
     paths:
       - base-fullbuild/Dockerfile
+      - base-fullbuild/requirements.txt
   workflow_dispatch:
 
 jobs:
