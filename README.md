@@ -6,7 +6,7 @@
 [![User Guide](https://img.shields.io/badge/User_Guide-OmegaWiki-informational?style=flat&logo=bookstack)](https://www.modem7.com/books/docker-backup/page/backup-docker-using-borgmatic)
 
 ### Description
-Multiarch fork of [b3vis/borgmatic](https://github.com/borgmatic-collective/docker-borgmatic) with latest versions so you can run Docker commands. 
+Multiarch fork of [borgmatic-collective/borgmatic](https://github.com/borgmatic-collective/docker-borgmatic) with latest versions so you can run Docker commands. 
 
 There are also tags with Docker-CLI installed. Useful for container stop/start scripts. 
 
