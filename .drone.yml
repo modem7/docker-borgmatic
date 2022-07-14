@@ -39,6 +39,20 @@ steps:
       - latest
       - 1.6.5-1.2.1
 
+  - name: pushrm-dockerhub
+    image: chko/docker-pushrm
+    environment:
+      DOCKER_USER:
+        from_secret: docker_username
+      DOCKER_PASS:
+        from_secret: docker_password
+      PUSHRM_FILE: README.md
+      PUSHRM_SHORT: Container to automate Borgbackups (https://github.com/borgbackup) using Borgmatic (https://github.com/witten/borgmatic)
+      PUSHRM_TARGET: modem7/borgmatic-docker
+    when:
+      status:
+        - success
+
 - name: slack
   image: themaz/drone-slack
   settings:
