@@ -47,7 +47,7 @@ steps:
     DOCKER_PASS:
       from_secret: docker_password
     PUSHRM_FILE: README.md
-    PUSHRM_SHORT: Container to automate Borgbackups (https://github.com/borgbackup) using Borgmatic (https://github.com/witten/borgmatic)
+    PUSHRM_SHORT: Multiarch Borgmatic with docker-cli
     PUSHRM_TARGET: modem7/borgmatic-docker
   when:
     status:
