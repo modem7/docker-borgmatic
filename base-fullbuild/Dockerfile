@@ -65,8 +65,8 @@ RUN apk add --update --no-cache \
     && rm -rf \
     /var/cache/apk/* \
     /.cache
-COPY --from=builder /usr/lib/python${PYTHON_VERSION}/site-packages /usr/lib/python${PYTHON_VERSION}/
-COPY --chmod=755 --from=builder \ 
+COPY --link --from=builder /usr/lib/python${PYTHON_VERSION}/site-packages /usr/lib/python${PYTHON_VERSION}/
+COPY --link --chmod=755 --from=builder \ 
                     /usr/bin/borg \
                     /usr/bin/borgfs \
                     /usr/bin/borgmatic \
