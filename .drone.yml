@@ -20,14 +20,14 @@ steps:
   image: thegeeklab/drone-docker-buildx
   privileged: true
   settings:
-    repo: modem7/borgmatic-docker
+    repo: ${DRONE_REPO}
     purge: true
     compress: true
     use_cache: true
     build_args: BUILDKIT_INLINE_CACHE=1
     cache_from:
-      - "modem7/borgmatic-docker:latest"
-      - "alpine:latest"
+      - ${DRONE_REPO}:latest
+      - alpine:latest
     Dockerfile: base-fullbuild/Dockerfile
     context: base-fullbuild/
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
@@ -50,7 +50,7 @@ steps:
       from_secret: docker_password
     PUSHRM_FILE: README.md
     PUSHRM_SHORT: Multiarch Borgmatic with docker-cli
-    PUSHRM_TARGET: modem7/borgmatic-docker
+    PUSHRM_TARGET: ${DRONE_REPO}
   when:
     status:
       - success
@@ -82,12 +82,12 @@ steps:
   image: thegeeklab/drone-docker-buildx
   privileged: true
   settings:
-    repo: modem7/borgmatic-docker
+    repo: ${DRONE_REPO}
     purge: true
     compress: true
     use_cache: true
     build_args: BUILDKIT_INLINE_CACHE=1
-    cache_from: "modem7/borgmatic-docker:dockercli"
+    cache_from: ${DRONE_REPO}:dockercli
     Dockerfile: base-dockercli/Dockerfile
     context: base-dockercli/
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
@@ -130,12 +130,12 @@ steps:
   image: thegeeklab/drone-docker-buildx
   privileged: true
   settings:
-    repo: modem7/borgmatic-docker
+    repo: ${DRONE_REPO}
     purge: true
     compress: true
     use_cache: true
     build_args: BUILDKIT_INLINE_CACHE=1
-    cache_from: "modem7/borgmatic-docker:liveinstall"
+    cache_from: ${DRONE_REPO}:liveinstall
     Dockerfile: base-liveinstall/Dockerfile
     context: base-liveinstall/
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
