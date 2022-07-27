@@ -1,11 +1,5 @@
-# syntax = docker/dockerfile:1
+# syntax = docker/dockerfile:latest
 
 FROM modem7/borgmatic-docker:latest
-COPY entry.sh /entry.sh
-RUN apk update \
-    && apk add --no-cache \
-    docker-cli \
-    && rm -rf /var/cache/apk/* \
-              /.cache \
-              && chmod 755 /entry.sh
+COPY --chmod=755 entry.sh /entry.sh
 CMD ["/entry.sh"]
