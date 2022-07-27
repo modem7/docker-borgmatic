@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1
+# syntax = docker/dockerfile:latest
 
 FROM alpine:3.16.1 as builder
 LABEL mainainer='modem7'
