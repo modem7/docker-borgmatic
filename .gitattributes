@@ -13,7 +13,7 @@
 ##   Handle line endings automatically for files detected as
 ##   text and leave all files detected as binary untouched.
 ##   This will handle all files NOT defined below.
-*                 text=auto
+*                 text eol=lf
 
 # Source code
 *.bash            text eol=lf
@@ -50,6 +50,7 @@
 *.tsx             text
 *.xml             text
 *.xhtml           text diff=html
+*.whl             binary
 
 # Docker
 Dockerfile        text
@@ -98,6 +99,12 @@ TODO              text
 *.tpl             text
 *.twig            text
 *.vue             text
+
+# Lock files
+*.lock            text eol=lf -diff
+package-lock.json text eol=lf -diff
+pnpm-lock.yaml    text eol=lf -diff
+yarn.lock         text eol=lf -diff
 
 # Configs
 *.cnf             text
