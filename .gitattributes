@@ -13,7 +13,7 @@
 ##   Handle line endings automatically for files detected as
 ##   text and leave all files detected as binary untouched.
 ##   This will handle all files NOT defined below.
-*                 text eol=lf
+*                 text=auto
 
 # Source code
 *.bash            text eol=lf
@@ -117,8 +117,6 @@ yarn.lock         text eol=lf -diff
 .htaccess         text
 *.lock            text -diff
 package.json      text eol=lf
-package-lock.json text eol=lf -diff
-pnpm-lock.yaml    text eol=lf -diff
 .prettierrc       text
 yarn.lock         text -diff
 *.toml            text
@@ -148,11 +146,7 @@ Procfile          text
 *.png             binary
 *.psb             binary
 *.psd             binary
-# SVG treated as an asset (binary) by default.
-*.svg             text
-# If you want to treat it as binary,
-# use the following line instead.
-# *.svg           binary
+ *.svg            binary
 *.svgz            binary
 *.tif             binary
 *.tiff            binary
@@ -212,3 +206,36 @@ Procfile          text
 
 # Ignore files (like .npmignore or .gitignore)
 *.*ignore         text
+
+# Documents
+*.bibtex          text diff=bibtex
+*.doc             diff=astextplain
+*.DOC             diff=astextplain
+*.docx            diff=astextplain
+*.DOCX            diff=astextplain
+*.dot             diff=astextplain
+*.DOT             diff=astextplain
+*.pdf             diff=astextplain
+*.PDF             diff=astextplain
+*.rtf             diff=astextplain
+*.RTF             diff=astextplain
+*.mdx             text diff=markdown
+*.tex             text diff=tex
+*.adoc            text
+*.textile         text
+*.csv             text
+*.tab             text
+*.tsv             text
+*.epub            diff=astextplain
+
+# Scripts
+*.fish            text eol=lf
+*.zsh             text eol=lf
+
+# Serialisation
+*.tar      binary
+*.tgz      binary
+*.zip      binary
+
+# Text files where line endings should be preserved
+*.patch    -text
