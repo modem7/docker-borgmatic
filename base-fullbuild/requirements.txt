@@ -1,6 +1,6 @@
 --extra-index-url https://modem7.github.io/PyPI/simple
 
-apprise==0.9.9
+apprise==1.0.0
 borgbackup==1.2.1
 borgmatic==1.6.6
 llfuse==1.4.2
