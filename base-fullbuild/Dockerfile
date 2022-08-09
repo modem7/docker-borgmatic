@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:latest
 
-FROM alpine:3.16.1 as builder
+FROM alpine:3.16.2 as builder
 LABEL mainainer='modem7'
 COPY requirements.txt /requirements.txt
 # mostly taken from https://github.com/borgbackup/borg/blob/1.1.15/Vagrantfile#L10-L26
@@ -29,7 +29,7 @@ RUN apk update && apk add --update --no-cache \
 
 RUN python3 -m pip install -v --no-cache-dir -U -r requirements.txt
 
-FROM alpine:3.16.1
+FROM alpine:3.16.2
 LABEL mainainer='modem7'
 ARG PYTHON_VERSION=3.10
 VOLUME /mnt/source
