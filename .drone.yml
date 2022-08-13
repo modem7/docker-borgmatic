@@ -25,9 +25,7 @@ steps:
     compress: true
     use_cache: true
     build_args: BUILDKIT_INLINE_CACHE=1
-    cache_from:
-      - ${DRONE_REPO}:latest
-      - alpine:latest
+    cache_from: ${DRONE_REPO}:latest
     Dockerfile: base-fullbuild/Dockerfile
     context: base-fullbuild/
     platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
