@@ -33,7 +33,7 @@ EOF
 
 COPY --chmod=755 --link entry.sh /
 COPY --link requirements.txt /
-RUN python3 -m pip install --no-cache -Ur requirements.txt
+RUN --mount=type=cache,target=/root/.cache python3 -m pip install -Ur requirements.txt
 RUN <<EOF
     set -x
     borgmatic --bash-completion > /usr/share/bash-completion/completions/borgmatic
