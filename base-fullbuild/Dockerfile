@@ -12,7 +12,8 @@ VOLUME /root/.cache/borg
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borgmatic --version || exit 1
 RUN <<EOF
     set -x
-    apk add -U --no-cache \
+    apk update
+    apk add --no-cache -U \
         tzdata \
         sshfs \
         openssl \
@@ -31,9 +32,10 @@ RUN <<EOF
         bash-doc
 EOF
 
-COPY --chmod=755 --link entry.sh /
 COPY --link requirements.txt /
-RUN --mount=type=cache,target=/root/.cache python3 -m pip install -Ur requirements.txt
+COPY --chmod=755 --link entry.sh /
+
+RUN --mount=type=cache,id=pip,target=/root/.cache,sharing=locked python3 -m pip install -Ur requirements.txt
 RUN <<EOF
     set -x
     borgmatic --bash-completion > /usr/share/bash-completion/completions/borgmatic
