@@ -5,7 +5,6 @@ dockerver=$(docker --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 borgver=$(borg --version)
 borgmaticver=$(borgmatic --version)
 apprisever=$(apprise --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-crontab=$(crontab -l)
 
 # Software versions
 echo docker $dockerver
@@ -23,6 +22,9 @@ if [ -v EXTRA_CRON ]
 then
    echo "$EXTRA_CRON" >> /etc/crontabs/root
 fi
+
+# Current crontab var
+crontab=$(crontab -l)
 
 # Output cron settings to console
 printf "Cron job set as: \n$crontab\n"
