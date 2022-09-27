@@ -29,7 +29,6 @@ It uses cron to run the backups at a time you can configure in `data/borgmatic.d
 | :----: | --- |
 | Latest | Latest version of Borgmatic|
 | dockercli | Borgmatic with Docker-CLI baked in. |
-| liveinstall | Borgmatic, with Docker-CLI downloaded and installed on container startup. |
 | 1.6.xx-1.2.x | Specific versions of Borgmatic |
 
 ### Usage
