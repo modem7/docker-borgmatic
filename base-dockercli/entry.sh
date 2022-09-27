@@ -15,8 +15,9 @@ echo apprise $apprisever
 # Disable cron if it's set to disabled.
 if [[ "$CRON" =~ ^(false|disabled|off)$ ]]; then
     echo "Disabling cron, removing configuration"
-    #crontab -r # quite destructive
-    echo -n > /etc/crontabs/root
+    # crontab -r # quite destructive
+    # echo -n > /etc/crontabs/root # Empty config, doesn't look as nice with "crontab -l"
+    echo "# Cron disabled" > /etc/crontabs/root
     echo "Cron is now disabled"
 # Apply default or custom cron if $CRON is unset or set (not null):
 elif [[ -v CRON ]]; then
