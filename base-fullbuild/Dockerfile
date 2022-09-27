@@ -12,7 +12,6 @@ VOLUME /root/.cache/borg
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borgmatic --version || exit 1
 RUN <<EOF
     set -x
-    apk update
     apk add --no-cache -U \
         tzdata \
         sshfs \
