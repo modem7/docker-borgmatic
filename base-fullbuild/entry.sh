@@ -4,11 +4,13 @@
 borgver=$(borg --version)
 borgmaticver=$(borgmatic --version)
 apprisever=$(apprise --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+pythonver=$(python3 --version)
 
 # Software versions
 echo borgmatic $borgmaticver
 echo $borgver
 echo apprise $apprisever
+echo $pythonver
 
 # Disable cron if it's set to disabled.
 if [[ "$CRON" =~ ^(false|disabled|off)$ ]]; then
