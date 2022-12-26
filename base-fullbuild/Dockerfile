@@ -21,6 +21,7 @@ RUN <<EOF
         logrotate \
         lz4-libs \
         libacl \
+        libssl1.1 \
         postgresql-client \
         mariadb-client \
         mongodb-tools \
