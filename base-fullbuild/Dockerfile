@@ -15,13 +15,12 @@ RUN <<EOF
     apk add --no-cache -U \
         tzdata \
         sshfs \
-        openssl \
+        openssl1.1-compat \
         fuse \
         ca-certificates \
         logrotate \
         lz4-libs \
         libacl \
-        libssl1.1 \
         postgresql-client \
         mariadb-client \
         mongodb-tools \
@@ -29,7 +28,8 @@ RUN <<EOF
         findmnt \
         bash \
         bash-completion \
-        bash-doc
+        bash-doc \
+        mariadb-connector-c
 EOF
 
 COPY --link requirements.txt /
