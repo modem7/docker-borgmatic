@@ -13,23 +13,24 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 CMD borg
 RUN <<EOF
     set -x
     apk add --no-cache -U \
-        tzdata \
-        sshfs \
-        openssl1.1-compat \
-        fuse \
-        ca-certificates \
-        logrotate \
-        lz4-libs \
-        libacl \
-        postgresql-client \
-        mariadb-client \
-        mongodb-tools \
-        curl \
-        findmnt \
         bash \
         bash-completion \
         bash-doc \
-        mariadb-connector-c
+        ca-certificates \
+        curl \
+        findmnt \
+        fuse \
+        libacl \
+        libxxhash \
+        logrotate \
+        lz4-libs \
+        mariadb-client \
+        mariadb-connector-c \
+        mongodb-tools \
+        openssl1.1-compat \
+        postgresql-client \
+        sshfs \
+        tzdata
 EOF
 
 COPY --link requirements.txt /
