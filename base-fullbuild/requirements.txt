@@ -1,4 +1,5 @@
---extra-index-url https://modem7.github.io/PyPI/simple
+--extra-index-url https://dl.cloudsmith.io/public/modem7/wheels/python/simple/
+--extra-index-url https://pypi.org/simple/
 
 apprise==1.2.1
 borgbackup==1.2.3
