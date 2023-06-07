@@ -30,6 +30,7 @@ RUN <<EOF
         openssl1.1-compat \
         postgresql-client \
         sshfs \
+        sqlite \
         tzdata
 EOF
 
