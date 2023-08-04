@@ -32,6 +32,7 @@ RUN <<EOF
         sshfs \
         sqlite \
         tzdata
+    apk upgrade --no-cache
 EOF
 
 COPY --link requirements.txt /
