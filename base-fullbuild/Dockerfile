@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:latest
 
-FROM python:3.11.4-alpine3.18
+FROM python:3.11.5-alpine3.18
 LABEL mainainer='modem7'
 VOLUME /mnt/source
 VOLUME /mnt/borg-repository
