@@ -21,7 +21,7 @@ echo "Software Versions:
 apprise $apprisever
 $borgver
 borgmatic $borgmaticver
-docker $dockerver
+dockercli $dockerver
 python $pythonver
 -----------------------------------
 Time Zone: $TZ

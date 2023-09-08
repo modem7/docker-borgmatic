@@ -28,7 +28,6 @@ It uses cron to run the backups at a time you can configure in `data/borgmatic.d
 | Tag | Description |
 | :----: | --- |
 | Latest | Latest version of Borgmatic|
-| dockercli | Borgmatic with Docker-CLI baked in. |
 | 1.6.xx-1.2.x | Specific versions of Borgmatic |
 
 # Environment Variables
@@ -38,6 +37,9 @@ It uses cron to run the backups at a time you can configure in `data/borgmatic.d
 | CRON | Cron times | cron time, disabled | 0 1 * * * |
 | CRON_COMMAND | Command cron will run | borgmatic --stats -v 0 2>&1 | borgmatic --stats -v 0 2>&1 |
 | EXTRA_CRON | Extra cron lines | 0 5 2 * * command1 | Empty |
+
+## Breaking change
+dockercli tag has been removed as there is now a variable to install it at container startup.
 
 ### Usage
 
