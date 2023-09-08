@@ -1,0 +1,15 @@
+# shellcheck shell=sh
+#!/usr/bin/with-contenv sh
+
+timestamp() {
+  date -I'seconds' # ISO-8601 format
+}
+
+# Any steps necessary to prepare the backup (stopping the service/taking
+# a snapshot...
+do_something() {
+  echo 'Doing something'
+}
+
+echo "$(timestamp) - Starting backup"
+do_something

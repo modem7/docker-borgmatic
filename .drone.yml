@@ -13,7 +13,6 @@ steps:
   image: hadolint/hadolint:latest-alpine
   pull: if-not-exists
   commands:
-    - hadolint --version
     - hadolint base-fullbuild/Dockerfile*
 
 - name: FullBuild

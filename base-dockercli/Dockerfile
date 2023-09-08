@@ -2,8 +2,9 @@
 
 FROM modem7/borgmatic-docker:latest
 
-COPY --chmod=755 --link entry.sh /
+COPY --link root/ /
+
 RUN apk add --update --no-cache \
     docker-cli
 
-CMD ["/entry.sh"]
+ENTRYPOINT [ "/init" ]

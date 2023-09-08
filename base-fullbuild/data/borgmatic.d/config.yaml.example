@@ -1,0 +1,40 @@
+---
+# see https://torsion.org/borgmatic/ for more info on this file
+location:
+  source_directories:
+    - /backup.tar.gz
+  files_cache: ctime,size,inode
+  remote_path: borg1
+  repositories:
+    - user@borg.example.com:myborgrepo
+  exclude_caches: true
+
+storage:
+  encryption_passcommand: cat /borgmatic/passphrase
+  compression: auto,lz4
+  umask: 0077
+  lock_wait: 5
+  archive_name_format: 'myservice-{now}'
+
+retention:
+  keep_within: 3H
+  keep_hourly: 24
+  keep_daily: 7
+  keep_weekly: 4
+  keep_monthly: 6
+  keep_yearly: 1
+  prefix: 'myservice-'
+
+consistency:
+  checks:
+    - repository
+    - archives
+  check_last: 3
+
+hooks:
+  before_backup:
+    - /borgmatic/before-backup
+  after_backup:
+    - /borgmatic/after-backup
+  on_error:
+    - /borgmatic/failed-backup
