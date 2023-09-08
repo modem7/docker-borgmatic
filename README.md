@@ -31,6 +31,14 @@ It uses cron to run the backups at a time you can configure in `data/borgmatic.d
 | dockercli | Borgmatic with Docker-CLI baked in. |
 | 1.6.xx-1.2.x | Specific versions of Borgmatic |
 
+# Environment Variables
+| Variable | Description | Possible Values | Default |
+| :----: | --- | --- | --- |
+| DOCKERCLI | Install DockerCLI | true | Empty |
+| CRON | Cron times | cron time, disabled | 0 1 * * * |
+| CRON_COMMAND | Command cron will run | borgmatic --stats -v 0 2>&1 | borgmatic --stats -v 0 2>&1 |
+| EXTRA_CRON | Extra cron lines | 0 5 2 * * command1 | Empty |
+
 ### Usage
 
 Please look at this [guide](https://www.modem7.com/books/docker-backup/page/backup-docker-using-borgmatic) to help you run this container.

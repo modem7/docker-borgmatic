@@ -1,5 +1,14 @@
 #!/usr/bin/with-contenv bash
 
+# Install DockerCLI if true
+if [ "${DOCKERCLI:-}" == "true" ]; then
+  echo "Installing Docker CLI..."
+  apk add -U --quiet docker-cli
+  dockerver=$(docker --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+else
+  dockerver="not installed"
+fi
+
 # Version variables
 borgver=$(borg --version)
 borgmaticver=$(borgmatic --version)
@@ -9,9 +18,10 @@ pythonver=$(python3 --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 # Software versions
 echo "Software Versions:
 -----------------------------------
-borgmatic $borgmaticver
-$borgver
 apprise $apprisever
+$borgver
+borgmatic $borgmaticver
+docker $dockerver
 python $pythonver
 -----------------------------------
 Time Zone: $TZ
@@ -50,5 +60,4 @@ crontab=$(crontab -l)
 printf "Cron job set as: \n$crontab\n"
 
 # Start Cron
-# exec supercronic -passthrough-logs /etc/crontabs/root
 exec /usr/sbin/crond -f -L /dev/stdout
