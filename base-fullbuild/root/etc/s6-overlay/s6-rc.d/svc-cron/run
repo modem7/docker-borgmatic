@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/with-contenv bash
 
 # Version variables
 borgver=$(borg --version)
@@ -7,10 +7,16 @@ apprisever=$(apprise --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 pythonver=$(python3 --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
 # Software versions
-echo borgmatic $borgmaticver
-echo $borgver
-echo apprise $apprisever
-echo python $pythonver
+echo "Software Versions:
+-----------------------------------
+borgmatic $borgmaticver
+$borgver
+apprise $apprisever
+python $pythonver
+-----------------------------------
+Time Zone: $TZ
+-----------------------------------
+"
 
 # Disable cron if it's set to disabled.
 if [[ "$CRON" =~ ^(false|disabled|off)$ ]]; then
@@ -44,4 +50,5 @@ crontab=$(crontab -l)
 printf "Cron job set as: \n$crontab\n"
 
 # Start Cron
-crond -f -L /dev/stdout
+# exec supercronic -passthrough-logs /etc/crontabs/root
+exec /usr/sbin/crond -f -L /dev/stdout

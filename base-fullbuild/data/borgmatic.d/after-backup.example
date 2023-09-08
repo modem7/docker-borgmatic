@@ -1,0 +1,25 @@
+#shellcheck shell=sh
+#!/usr/bin/with-contenv sh
+
+timestamp() {
+  date -I'seconds' # ISO-8601 format
+}
+
+cleanup() {
+  rm -rf /backup.tar.gz
+}
+
+last_backup_info() {
+  export BORG_REMOTE_PATH=borg1
+  export BORG_PASSCOMMAND='cat /borgmatic/passphrase'
+  export BORG_CACHE_DIR='/cache'
+  # vars will be replaced by Ansible's templating engine
+  # shellcheck disable=SC1083
+  last_backup_name="$(borg list --short --last 1 user@borg.example.com:myborgrepo)"
+
+  borg info "user@borg.example.com:myborgrepo::${last_backup_name}"
+}
+
+echo "$(timestamp) - Backup completed"
+last_backup_info
+cleanup
