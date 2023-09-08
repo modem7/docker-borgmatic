@@ -1,4 +1,4 @@
-# Borgmatic Container
+# Borgmatic Container with S6
 [![Docker Pulls](https://img.shields.io/docker/pulls/modem7/borgmatic-docker)](https://hub.docker.com/r/modem7/borgmatic-docker)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/modem7/borgmatic-docker/latest)](https://hub.docker.com/r/modem7/borgmatic-docker)
 [![Build Status](https://drone.modem7.com/api/badges/modem7/docker-borgmatic/status.svg)](https://drone.modem7.com/modem7/docker-borgmatic)
@@ -6,7 +6,7 @@
 [![User Guide](https://img.shields.io/badge/User_Guide-OmegaWiki-informational?style=flat&logo=bookstack)](https://www.modem7.com/books/docker-backup/page/backup-docker-using-borgmatic)
 
 ### Description
-Multiarch fork of [borgmatic-collective/borgmatic](https://github.com/borgmatic-collective/docker-borgmatic) with latest versions so you can run Docker commands. 
+Multiarch fork of [borgmatic-collective/borgmatic](https://github.com/borgmatic-collective/docker-borgmatic) with latest software versions and leveraging S6 so you can run Docker commands. 
 
 There are also tags with Docker-CLI installed. Useful for container stop/start scripts. 
 
@@ -81,7 +81,7 @@ hooks:
 ```
 
 ### Example run command
-```
+```console
 docker run \
   --detach --name borgmatic \
   -v /home:/mnt/source:ro \
@@ -90,12 +90,12 @@ docker run \
   -v /opt/docker/docker-borgmatic/data/.config/borg:/root/.config/borg \
   -v /opt/docker/docker-borgmatic/data/.ssh:/root/.ssh \
   -v /opt/docker/docker-borgmatic/data/.cache/borg:/root/.cache/borg \
-  -e TZ=Europe/Berlin \
-  b3vis/borgmatic
+  -e TZ=Europe/London \
+  modem7/borgmatic-docker
 ```
 While the parameters above are sufficient for regular backups, following additional privileges will
 be needed to mount an archive as FUSE filesystem:
-```
+```console
 --cap-add SYS_ADMIN \
 --device /dev/fuse \
 --security-opt label:disable \
@@ -105,7 +105,7 @@ Depending on your security system, `--security-opt` parameters may not be necess
 is needed for *SELinux*, while `apparmor:unconfined` is needed for *AppArmor*.
 
 To init the repo with encryption, run:
-```
+```console
 docker exec borgmatic \
 sh -c "borgmatic --init --encryption repokey-blake2"
 ```
@@ -119,17 +119,15 @@ Mount your borg backup repository here.
 #### /etc/borgmatic.d
 Where you need to create crontab.txt and your borgmatic config.yml
 - To generate an example borgmatic configuration, run:
-```
+```console
 docker exec borgmatic \
-sh -c "cd && generate-borgmatic-config -d /etc/borgmatic.d/config.yaml"
+sh -c "cd && borgmatic config generate -d /etc/borgmatic.d/config.yaml"
 ```
 - crontab.txt example: In this file set the time you wish for your backups to take place default is
   1am every day. In here you can add any other tasks you want ran
 ```
 0 1 * * * PATH=$PATH:/usr/bin /usr/bin/borgmatic --stats -v 0 2>&1
 ```
-#### /root/.borgmatic
-**Note** this is now redundant and has been deprecated, please remove this from your configs
 #### /root/.config/borg
 Here the borg config and keys for keyfile encryption modes are stored. Make sure to backup your
 keyfiles! Also needed when encryption is set to none.
