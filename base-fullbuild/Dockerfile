@@ -64,9 +64,11 @@ EOF
 
 COPY --link requirements.txt /
 
-RUN --mount=type=cache,id=pip,target=/root/.cache,sharing=locked python3 -m pip install --upgrade pip && python3 -m pip install -Ur requirements.txt
-RUN <<EOF
-    set -x
+RUN --mount=type=cache,id=pip,target=/root/.cache,sharing=locked \
+    <<EOF
+    set -xe
+    python3 -m pip install -U pip
+    python3 -m pip install -Ur requirements.txt
     borgmatic --bash-completion > "$(pkg-config --variable=completionsdir bash-completion)"/borgmatic
 EOF
 

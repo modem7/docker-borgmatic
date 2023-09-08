@@ -6,4 +6,5 @@ else
   e="$1"
 fi
 
+echo "Received exit code $e."
 echo "$e" > /run/s6-linux-init-container-results/exitcode
