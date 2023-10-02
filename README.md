@@ -28,7 +28,7 @@ It uses cron to run the backups at a time you can configure in `data/borgmatic.d
 | Tag | Description |
 | :----: | --- |
 | Latest | Latest version of Borgmatic|
-| 1.6.xx-1.2.x | Specific versions of Borgmatic |
+| 1.8.xx-1.2.x | Specific versions of Borgmatic |
 
 # Environment Variables
 | Variable | Description | Possible Values | Default |
