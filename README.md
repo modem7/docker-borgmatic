@@ -5,6 +5,8 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/modem7/docker-borgmatic)](https://github.com/modem7/docker-borgmatic)
 [![User Guide](https://img.shields.io/badge/User_Guide-OmegaWiki-informational?style=flat&logo=bookstack)](https://www.modem7.com/books/docker-backup/page/backup-docker-using-borgmatic)
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/modem7)
+
 ### Description
 Multiarch fork of [borgmatic-collective/borgmatic](https://github.com/borgmatic-collective/docker-borgmatic) with latest software versions and leveraging S6 so you can run Docker commands. 
 
