@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:latest
 
-FROM python:3.12.1-alpine3.18 as base
+FROM python:3.11.7-alpine3.19 as base
 ARG TARGETARCH
 
 LABEL maintainer='modem7'
@@ -32,7 +32,7 @@ ENV LANG='en_US.UTF-8'                   \
     TZ="Europe/London"
 
 RUN <<EOF
-    set -x
+    set -xe
     apk upgrade --update --no-cache
     tar -C / -Jxpf /tmp/s6-overlay.tar.xz
     tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz
@@ -54,7 +54,7 @@ RUN <<EOF
         mariadb-client      \
         mariadb-connector-c \
         mongodb-tools       \
-        openssl1.1-compat   \
+        openssl             \
         postgresql-client   \
         sshfs               \
         sqlite              \
