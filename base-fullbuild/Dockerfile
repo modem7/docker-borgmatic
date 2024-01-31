@@ -26,7 +26,7 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLA
 ENV LANG='en_US.UTF-8'                   \
     LANGUAGE='en_US.UTF-8'               \
     TERM='xterm'                         \
-    S6_LOGGING="1"                         \
+    S6_LOGGING="1"                       \
     S6_VERBOSITY="0"                     \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0" \
     TZ="Europe/London"
