@@ -59,7 +59,8 @@ RUN <<EOF
         pkgconfig           \
         sshfs               \
         sqlite              \
-        tzdata
+        tzdata              \
+        xxhash
     apk upgrade --no-cache
 EOF
 
