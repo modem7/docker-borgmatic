@@ -41,8 +41,16 @@ It uses cron to run the backups at a time you can configure in `data/borgmatic.d
 | CRON_COMMAND | Command cron will run | borgmatic --stats -v 0 2>&1 | borgmatic --stats -v 0 2>&1 |
 | EXTRA_CRON | Extra cron lines | 0 5 2 * * command1 | Empty |
 
-## Breaking change
-dockercli tag has been removed as there is now a variable to install it at container startup.
+## Customising the container
+Simply mount a volume located at /custom-cont-init.d and add any scripts you want. These scripts can contain logic for installing packages, copying over custom files to other locations, or installing plugins.
+
+For example:
+```yaml
+services:
+  borgmatic:
+    volumes:
+      - /home/foo/my-custom-files:/custom-cont-init.d:ro
+```
 
 ### Usage
 
