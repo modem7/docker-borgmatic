@@ -11,6 +11,13 @@ else
   composever="not installed"
 fi
 
+# Install additional packages
+if [ -v EXTRA_PKGS ]
+then
+    echo Installing extra packages: "$EXTRA_PKGS"
+    apk add -U --quiet $EXTRA_PKGS
+fi
+
 # Version variables
 borgver=$(borg --version)
 borgmaticver=$(borgmatic --version)
@@ -28,8 +35,14 @@ composecli $composever
 python $pythonver
 -----------------------------------
 Time Zone: $TZ
------------------------------------
-"
+-----------------------------------"
+if [ -v EXTRA_PKGS ]
+then
+  echo "Additional packages installed:"
+  echo "-----------------------------------"
+  echo $EXTRA_PKGS | tr -s " " "\n"
+  echo "-----------------------------------"
+fi
 
 # Enable initial debug logging based on the DEBUG_SECRETS environment variable.
 # Logs the initial values of BORG_PASSPHRASE and BORG_PASSPHRASE_FILE.
