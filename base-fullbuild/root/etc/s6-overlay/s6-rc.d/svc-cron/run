@@ -1,28 +1,18 @@
 #!/usr/bin/with-contenv bash
 
-# Install DockerCLI if true
-if [ "${DOCKERCLI:-}" == "true" ]; then
-  echo "Installing Docker CLI and Compose..."
-  apk add -U --quiet docker-cli docker-cli-compose
+# Version variables
+borgver=$(borg --version)
+borgmaticver=$(borgmatic --version)
+apprisever=$(apprise --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+pythonver=$(python3 --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+
+if [ "${DOCKERCLI}" == "true" ]; then
   dockerver=$(docker --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
   composever=$(docker compose version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 else
   dockerver="not installed"
   composever="not installed"
 fi
-
-# Install additional packages
-if [ -v EXTRA_PKGS ]
-then
-    echo Installing extra packages: "$EXTRA_PKGS"
-    apk add -U --quiet $EXTRA_PKGS
-fi
-
-# Version variables
-borgver=$(borg --version)
-borgmaticver=$(borgmatic --version)
-apprisever=$(apprise --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-pythonver=$(python3 --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
 # Software versions
 echo "Software Versions:

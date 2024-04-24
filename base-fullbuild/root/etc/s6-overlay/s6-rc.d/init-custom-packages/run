@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+
+# Install DockerCLI if true
+if [ "${DOCKERCLI}" == "true" ]; then
+  echo "Installing Docker CLI and Compose..."
+  apk add -U --quiet docker-cli docker-cli-compose
+fi
+
+# Install additional packages
+if [ -v EXTRA_PKGS ]
+then
+    echo Installing extra packages: "$EXTRA_PKGS"
+    apk add -U --quiet $EXTRA_PKGS
+fi
