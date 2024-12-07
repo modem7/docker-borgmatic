@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:latest
 
-FROM python:3.13.1-alpine3.19 AS base
+FROM python:3.13.1-alpine3.20 AS base
 ARG TARGETARCH
 
 LABEL maintainer='modem7'
