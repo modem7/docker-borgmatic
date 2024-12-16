@@ -47,7 +47,7 @@ RUN <<EOF
         curl                \
         findmnt             \
         fuse                \
-        libacl              \
+        acl-libs            \
         libxxhash           \
         logrotate           \
         lz4-libs            \
