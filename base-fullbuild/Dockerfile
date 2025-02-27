@@ -71,7 +71,7 @@ RUN --mount=type=cache,id=pip,target=/root/.cache,sharing=locked \
     set -xe
     python3 -m pip install -U pip
     python3 -m pip install -Ur requirements.txt
-    borgmatic --bash-completion > "$(pkg-config --variable=completionsdir bash-completion)"/borgmatic
+    apk add --no-cache -U borgmatic-bash-completion
 EOF
 
 COPY --chmod=744 --link root/ /
