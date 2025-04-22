@@ -43,6 +43,7 @@ RUN <<EOF
         bash                \
         bash-completion     \
         bash-doc            \
+        btrfs-progs         \
         ca-certificates     \
         curl                \
         findmnt             \
