@@ -1,0 +1,81 @@
+name: Sync Drone Tags from requirements.txt
+
+on:
+  pull_request:
+    paths:
+      - 'base-fullbuild/requirements.txt'
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sync-tags:
+    runs-on: ubuntu-latest
+    # Only run on PRs from the same repo (not forks), since we need write access
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          # Check out the PR's head branch so we can push back to it
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Parse versions from requirements.txt
+        id: versions
+        run: |
+          BORGMATIC_VERSION=$(grep -oP 'borgmatic\[apprise\]==\K[\d.]+' base-fullbuild/requirements.txt)
+          BORGBACKUP_VERSION=$(grep -oP 'borgbackup==\K[\d.]+' base-fullbuild/requirements.txt)
+
+          if [ -z "$BORGMATIC_VERSION" ]; then
+            echo "ERROR: Could not parse borgmatic version from requirements.txt"
+            exit 1
+          fi
+          if [ -z "$BORGBACKUP_VERSION" ]; then
+            echo "ERROR: Could not parse borgbackup version from requirements.txt"
+            exit 1
+          fi
+
+          NEW_TAG="${BORGMATIC_VERSION}-${BORGBACKUP_VERSION}"
+          echo "borgmatic_version=$BORGMATIC_VERSION" >> "$GITHUB_OUTPUT"
+          echo "borgbackup_version=$BORGBACKUP_VERSION" >> "$GITHUB_OUTPUT"
+          echo "new_tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+          echo "Parsed borgmatic=$BORGMATIC_VERSION, borgbackup=$BORGBACKUP_VERSION → tag=$NEW_TAG"
+
+      - name: Update version tag in .drone.yml
+        id: update
+        run: |
+          NEW_TAG="${{ steps.versions.outputs.new_tag }}"
+
+          # Match the existing version tag line (e.g. "      - 2.1.5-1.4.4")
+          # Pattern: lines with "- " followed by digits/dots/hyphens (not "latest")
+          CURRENT_TAG=$(grep -oP '(?<=- )\d+\.\d+\.\d+-\d+\.\d+\.\d+' .drone.yml | head -1)
+
+          if [ -z "$CURRENT_TAG" ]; then
+            echo "ERROR: Could not find a version tag in .drone.yml"
+            exit 1
+          fi
+
+          echo "Current tag in .drone.yml: $CURRENT_TAG"
+          echo "New tag: $NEW_TAG"
+
+          if [ "$CURRENT_TAG" == "$NEW_TAG" ]; then
+            echo "Tag is already up to date. No changes needed."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            # Replace only the version tag line, leaving "latest" untouched
+            sed -i "s/- ${CURRENT_TAG}/- ${NEW_TAG}/" .drone.yml
+            echo "Updated .drone.yml: $CURRENT_TAG → $NEW_TAG"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push updated .drone.yml
+        if: steps.update.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .drone.yml
+          git commit -m "ci: update drone tag to ${{ steps.versions.outputs.new_tag }}"
+          git push
