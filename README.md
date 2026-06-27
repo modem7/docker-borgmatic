@@ -30,6 +30,7 @@ services:
   borgmatic:
     image: modem7/borgmatic-docker
     container_name: borgmatic
+    hostname: borgmatic
     volumes:
       - /home:/mnt/source:ro
       - ./data/repository:/mnt/borg-repository
@@ -58,7 +59,7 @@ docker compose up -d
 Initialise your Borg repository:
 
 ```console
-docker exec -it borgmatic borgmatic init --encryption repokey-blake2
+docker exec -it borgmatic borgmatic repo-create --encryption repokey-blake2
 ```
 
 Run a manual backup to verify everything works:
