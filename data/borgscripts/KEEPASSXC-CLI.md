@@ -129,6 +129,31 @@ host path not included in your backup source) and mount it read-only.
 
 ---
 
+## Limitations
+
+### Secret Service integration is not supported
+
+borgmatic supports a `{credential keepassxc secret-service <key>}` syntax that
+retrieves credentials via the D-Bus Secret Service API (the same mechanism
+desktop apps use to talk to a running KeePassXC or GNOME Keyring instance).
+
+This does **not** work in a headless Docker container. The Secret Service API
+requires:
+
+1. A running D-Bus session bus
+2. A Secret Service provider (KeePassXC GUI or `gnome-keyring-daemon`) exposing
+   credentials on that bus
+
+Neither exists in a container by default, and providing them would pull in the
+full Qt6/GTK desktop stack — exactly the dependency weight this shim exists to
+avoid.
+
+**For unattended Docker backups, use the key file approach** (`ask_for_password:
+false` + `key_file`) instead of secret service. It requires no interactive
+prompt and no running desktop environment.
+
+---
+
 ## Security notes
 
 - The `pykeepass` library reads the KeePass 4 (`.kdbx`) format entirely
