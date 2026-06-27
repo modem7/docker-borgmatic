@@ -30,7 +30,16 @@
       "matchStrings": ["ARG PYTHON_VERSION=(?<currentValue>[0-9.]+)"],
       "depNameTemplate": "python",
       "datasourceTemplate": "docker",
-      "versioningTemplate": "loose",
+      "versioningTemplate": "loose"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDepNames": ["alpine"],
+      "allowedVersions": "/^\\d+\\.\\d+$/"
+    },
+    {
+      "matchDepNames": ["python"],
       "allowedVersions": "/^\\d+\\.\\d+$/"
     }
   ]
