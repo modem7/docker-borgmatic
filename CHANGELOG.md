@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-06-27 (continued 9)
+
+### Added
+
+- KeePassXC credential support via opt-in init script (`data/borgscripts/init-keepassxc-cli.sh`). Installs a `pykeepass`-backed shim at `/usr/local/bin/keepassxc-cli` that implements the exact CLI interface borgmatic calls — no image bloat (~2 MB vs ~150 MB for the Alpine Qt6 package). See `data/borgscripts/KEEPASSXC-CLI.md` for setup.
+
 ## 2026-06-27 (continued 8)
 
 ### Changed
