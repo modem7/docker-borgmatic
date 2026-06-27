@@ -72,6 +72,7 @@ EOF
 
 COPY --link requirements.txt /
 
+# hadolint ignore=DL3013,DL3018,DL3042
 RUN --mount=type=cache,id=pip,target=/root/.cache,sharing=locked \
     <<EOF
     set -xe
