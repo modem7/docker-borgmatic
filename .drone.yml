@@ -14,8 +14,7 @@ steps:
   commands:
     - borgmatic_ver=$(grep 'borgmatic' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
     - borg_ver=$(grep 'borgbackup' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-    - echo "latest" > .tags
-    - echo "$${borgmatic_ver}-$${borg_ver}" >> .tags
+    - printf "latest,%s-%s" "$${borgmatic_ver}" "$${borg_ver}" > .tags
     - echo "Tags to publish:" && cat .tags
 
 - name: FullBuild
