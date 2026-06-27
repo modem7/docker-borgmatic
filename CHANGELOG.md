@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-06-27 (continued 4)
+
+### Fixed
+
+- `.drone.yml`: Drone tags file now written as a single comma-separated line (`latest,2.1.6-1.4.4`) rather than one tag per line. `thegeeklab/drone-docker-buildx` treated the entire file content as one string, causing an invalid tag error (`latest\n2.1.6-1.4.4`).
+
 ## 2026-06-27 (continued 3)
 
 ### Added
