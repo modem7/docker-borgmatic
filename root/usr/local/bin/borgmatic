@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Wrapper around the borgmatic binary.
+# Warns when borgmatic is invoked directly rather than via borgmatic-start,
+# which means SIGTERM/INT/HUP signals will not be forwarded gracefully.
+if [ -z "${BORGMATIC_VIA_START}" ]; then
+    echo "WARNING: borgmatic is running directly, not via borgmatic-start." \
+         "Signal handling (SIGTERM/INT/HUP) will not be forwarded to borgmatic." >&2
+fi
+exec /usr/local/bin/borgmatic.bin "$@"

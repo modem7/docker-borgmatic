@@ -72,12 +72,14 @@ EOF
 
 COPY --link requirements.txt /
 
+# hadolint ignore=DL3013,DL3018,DL3042
 RUN --mount=type=cache,id=pip,target=/root/.cache,sharing=locked \
     <<EOF
     set -xe
     python3 -m pip install -U pip
     python3 -m pip install -Ur requirements.txt
     apk add --no-cache -U borgmatic-bash-completion
+    mv /usr/local/bin/borgmatic /usr/local/bin/borgmatic.bin
 EOF
 
 COPY --chmod=744 --link root/ /
