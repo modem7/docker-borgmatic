@@ -1,0 +1,110 @@
+#!/command/with-contenv bash
+
+# Version variables
+borgver=$(borg --version)
+borgmaticver=$(borgmatic --version)
+apprisever=$(apprise --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+pythonver=$(python3 --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+
+if [ "${DOCKERCLI}" == "true" ]; then
+  dockerver=$(docker --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+  composever=$(docker compose version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+else
+  dockerver="not installed"
+  composever="not installed"
+fi
+
+echo "-----------------------------------
+Software Versions:
+-----------------------------------
+apprise $apprisever
+$borgver
+borgmatic $borgmaticver
+dockercli $dockerver
+composecli $composever
+python $pythonver
+-----------------------------------
+Time Zone: $TZ
+-----------------------------------"
+
+if [ -v EXTRA_PKGS ]; then
+  echo "Additional packages installed:
+-----------------------------------
+$(echo $EXTRA_PKGS | tr -s ' ' '\n')
+-----------------------------------"
+fi
+
+debug_secrets() {
+  echo "${1}: BORG_PASSPHRASE: ${BORG_PASSPHRASE}"
+  echo "${1}: BORG_PASSPHRASE_FILE: ${BORG_PASSPHRASE_FILE}"
+  echo "${1}: YOUR_PASSPHRASE: ${YOUR_PASSPHRASE}"
+  echo "${1}: YOUR_PASSPHRASE_FILE: ${YOUR_PASSPHRASE_FILE}"
+}
+
+[[ "${DEBUG_SECRETS}" = "true" || "${DEBUG_SECRETS}" = "1" ]] && debug_secrets "Before"
+
+# Expand *_FILE variables into their base counterparts.
+# compgen -e lists only variable names, avoiding issues with multi-line values.
+for var_name in $(compgen -e | grep -E '^(BORG|YOUR)'); do
+  [[ "$var_name" =~ _FILE$ ]] || continue
+
+  var_value="${!var_name}"
+  original_var_name="${var_name%_FILE}"
+  original_var_value="${!original_var_name}"
+
+  if [ -n "$var_value" ] && [ -s "$var_value" ]; then
+    [ -n "$original_var_value" ] && echo "Note: $original_var_name was already set but is being overwritten by $var_name"
+    export "${original_var_name}=$(cat "${var_value}")"
+    echo "Setting $original_var_name from the content of $var_value"
+    unset "$var_name"
+    echo "Unsetting $var_name"
+  else
+    echo "Error: File $var_value does not exist or is empty."
+  fi
+done
+
+[[ "${DEBUG_SECRETS}" = "true" || "${DEBUG_SECRETS}" = "1" ]] && debug_secrets "After"
+
+if [[ "$CRON" = "false" ]]; then
+    echo "Disabling cron, removing configuration"
+    echo "# Cron disabled" > /etc/crontabs/root
+    echo "Cron is now disabled"
+elif [[ -v CRON ]]; then
+    CRON_COMMAND="${CRON_COMMAND:-"borgmatic-start --stats -v 0 2>&1"}"
+    echo "${CRON} ${CRON_COMMAND}" > /etc/crontabs/root
+    echo "Applying custom cron"
+else
+    if [ -f /etc/borgmatic.d/crontab.txt ]; then
+        echo "Applying crontab.txt"
+        crontab /etc/borgmatic.d/crontab.txt
+    else
+        echo "No crontab.txt found, applying default schedule: 0 1 * * *"
+        echo "0 1 * * * borgmatic-start --stats -v 0 2>&1" > /etc/crontabs/root
+    fi
+fi
+
+[ -v EXTRA_CRON ] && printf '\n%s\n' "$EXTRA_CRON" >> /etc/crontabs/root
+
+crontab=$(crontab -l)
+
+# Warn if borgmatic is called directly instead of borgmatic-start, which means
+# SIGTERM from docker stop will not be forwarded and can leave repository locks behind.
+active_crontab=$(echo "$crontab" | grep -v '^#')
+if echo "$active_crontab" | grep -qE '\bborgmatic\b' && \
+   ! echo "$active_crontab" | grep -q 'borgmatic-start'; then
+  printf '%s\n' \
+    "------------------------------------------------------------" \
+    "WARNING: Your cron job calls 'borgmatic' directly." \
+    "Use 'borgmatic-start' instead to ensure SIGTERM is forwarded" \
+    "to borgmatic when the container is stopped. Without this," \
+    "a running backup will be killed immediately rather than" \
+    "allowed to finish, which can leave repository locks behind." \
+    "" \
+    "  Change:  borgmatic --stats -v 0 2>&1" \
+    "  To:      borgmatic-start --stats -v 0 2>&1" \
+    "------------------------------------------------------------"
+fi
+
+echo -e "Cron job set as: \n$crontab\n"
+
+exec /usr/sbin/crond -f -L /dev/stdout

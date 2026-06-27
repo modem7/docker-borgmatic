@@ -7,51 +7,49 @@ name: FullBuild
 platform:
   os: linux
   arch: amd64
-  
+
 steps:
-- name: Lint Dockerfile
-  image: hadolint/hadolint:latest-alpine
-  pull: if-not-exists
+- name: Prepare tags
+  image: alpine
   commands:
-    - hadolint base-fullbuild/Dockerfile*
+    - borgmatic_ver=$(grep 'borgmatic' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+    - borg_ver=$(grep 'borgbackup' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+    - echo "latest" > .tags
+    - echo "$${borgmatic_ver}-$${borg_ver}" >> .tags
+    - echo "Tags to publish:" && cat .tags
 
 - name: FullBuild
   image: thegeeklab/drone-docker-buildx
   privileged: true
-
   settings:
     repo: modem7/borgmatic-docker
     purge: true
-    compress: true
-    no_cache: false
     build_args: BUILDKIT_INLINE_CACHE=1
     cache_from: modem7/borgmatic-docker:latest
-    dockerfile: base-fullbuild/Dockerfile
-    context: base-fullbuild/
-    platforms: # if it doesn't work run docker run --privileged --rm tonistiigi/binfmt --install all
+    dockerfile: Dockerfile
+    context: .
+    platforms:
       - linux/amd64
       - linux/arm64
     username:
       from_secret: docker_username
     password:
       from_secret: docker_password
-    tags:
-      - latest
-      - 2.1.6-1.4.4
+    tags_file: .tags
 
 - name: pushrm-dockerhub
   image: chko/docker-pushrm
+  when:
+    status:
+      - success
   environment:
     DOCKER_USER:
       from_secret: docker_username
     DOCKER_PASS:
       from_secret: docker_password
     PUSHRM_FILE: README.md
-    PUSHRM_SHORT: Multiarch Borgmatic with docker-cli
+    PUSHRM_SHORT: Multiarch Borgmatic Docker image with S6 overlay, Apprise notifications, and optional Docker CLI
     PUSHRM_TARGET: modem7/borgmatic-docker
-  when:
-    status:
-      - success
 
 - name: slack
   image: themaz/drone-slack
