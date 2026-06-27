@@ -307,7 +307,7 @@ jobs:
         run: |
           docker run -d --name test-versions -e CRON=false ${{ env.IMAGE }}
           timeout 30 bash -c \
-            'until docker logs test-versions 2>&1 | grep -q "borgmatic"; do sleep 1; done'
+            'until docker logs test-versions 2>&1 | grep -q "Time Zone:"; do sleep 1; done'
           logs=$(docker logs test-versions 2>&1)
           echo "$logs"
           echo "$logs" | grep -qE "borg [0-9]"       || { echo "borg version missing";       exit 1; }
