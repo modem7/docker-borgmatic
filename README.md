@@ -604,6 +604,38 @@ commands:
 
 ---
 
+## KeePassXC credential support
+
+borgmatic supports retrieving secrets from a KeePass database via the `{credential keepassxc ...}` syntax. Because Alpine's `keepassxc` package pulls in the full Qt6 GUI stack (~150 MB), this image ships an **opt-in shim** instead — a lightweight Python script backed by `pykeepass` that implements the exact CLI interface borgmatic expects.
+
+### Quick setup
+
+Mount the init script at startup:
+
+```yaml
+services:
+  borgmatic:
+    volumes:
+      - ./data/borgscripts/init-keepassxc-cli.sh:/custom-cont-init.d/init-keepassxc-cli.sh:ro
+      - /path/to/your/passwords.kdbx:/etc/borgmatic/passwords.kdbx:ro
+      - /path/to/your/passwords.keyx:/run/secrets/keepass.keyx:ro  # optional key file
+```
+
+Configure borgmatic:
+
+```yaml
+keepassxc:
+    database: /etc/borgmatic/passwords.kdbx
+    ask_for_password: false   # required for unattended/cron backups
+    key_file: /run/secrets/keepass.keyx
+
+encryption_passphrase: "{credential keepassxc /etc/borgmatic/passwords.kdbx MyBorgEntry}"
+```
+
+See [`data/borgscripts/KEEPASSXC-CLI.md`](data/borgscripts/KEEPASSXC-CLI.md) for full setup instructions, security notes, and database hook examples.
+
+---
+
 ## Native database backup (borgmatic)
 
 For PostgreSQL, MariaDB/MySQL, MongoDB, and SQLite, borgmatic has built-in support that dumps the database and includes the dump in the archive — no separate script needed. Example for PostgreSQL:
