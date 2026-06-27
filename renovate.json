@@ -10,23 +10,26 @@
     "dependencies"
   ],
   "timezone": "Europe/London",
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^Dockerfile$"],
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
       "matchStrings": ["ARG S6_OVERLAY_VERSION=(?<currentValue>[0-9.]+)"],
       "depNameTemplate": "just-containers/s6-overlay",
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v(?<version>.+)$"
     },
     {
-      "fileMatch": ["^Dockerfile$"],
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
       "matchStrings": ["ARG ALPINE_VERSION=(?<currentValue>[0-9.]+)"],
       "depNameTemplate": "alpine",
       "datasourceTemplate": "docker",
       "versioningTemplate": "loose"
     },
     {
-      "fileMatch": ["^Dockerfile$"],
+      "customType": "regex",
+      "managerFilePatterns": ["/^Dockerfile$/"],
       "matchStrings": ["ARG PYTHON_VERSION=(?<currentValue>[0-9.]+)"],
       "depNameTemplate": "python",
       "datasourceTemplate": "docker",
