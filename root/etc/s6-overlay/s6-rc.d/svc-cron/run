@@ -2,7 +2,7 @@
 
 # Version variables
 borgver=$(borg --version)
-borgmaticver=$(borgmatic.bin --version)
+borgmaticver=$(borgmatic --version)
 apprisever=$(apprise --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 pythonver=$(python3 --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
