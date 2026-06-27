@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-06-27 (continued 6)
+
+### Fixed
+
+- `renovate.json`: add `versioningTemplate: "loose"` to the S6 overlay custom manager. S6 uses 4-part version numbers (`3.2.0.2`) which aren't valid semver — without `loose` versioning Renovate silently skips S6 updates.
+
+### Changed
+
+- S6 overlay updated from `3.2.0.2` to `3.2.3.0`.
+
 ## 2026-06-27 (continued 5)
 
 ### Fixed

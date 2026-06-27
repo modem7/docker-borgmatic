@@ -16,7 +16,7 @@ ENV S6_OVERLAY_ARCH=aarch64
 
 FROM base-${TARGETARCH}${TARGETVARIANT}
 
-ARG S6_OVERLAY_VERSION=3.2.0.2
+ARG S6_OVERLAY_VERSION=3.2.3.0
 
 # Add S6 Overlay
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_OVERLAY_ARCH}.tar.xz /tmp/s6-overlay.tar.xz
