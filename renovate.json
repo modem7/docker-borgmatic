@@ -17,7 +17,8 @@
       "matchStrings": ["ARG S6_OVERLAY_VERSION=(?<currentValue>[0-9.]+)"],
       "depNameTemplate": "just-containers/s6-overlay",
       "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v(?<version>.+)$"
+      "extractVersionTemplate": "^v(?<version>.+)$",
+      "versioningTemplate": "loose"
     },
     {
       "customType": "regex",
