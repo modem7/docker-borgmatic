@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-06-27 (continued 8)
+
+### Added
+
+- Warning when borgmatic is run directly via `docker exec` instead of through `borgmatic-start`. Running directly bypasses the SIGTERM/INT/HUP signal forwarding that `borgmatic-start` provides, which can leave a backup mid-run if the container is stopped. The warning is suppressed when called via `borgmatic-start`.
+
 ## 2026-06-27 (continued 7)
 
 ### Changed

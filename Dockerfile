@@ -78,6 +78,7 @@ RUN --mount=type=cache,id=pip,target=/root/.cache,sharing=locked \
     python3 -m pip install -U pip
     python3 -m pip install -Ur requirements.txt
     apk add --no-cache -U borgmatic-bash-completion
+    mv /usr/local/bin/borgmatic /usr/local/bin/borgmatic.bin
 EOF
 
 COPY --chmod=744 --link root/ /
