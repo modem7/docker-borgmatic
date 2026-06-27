@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-06-27 (continued 5)
+
+### Fixed
+
+- `renovate.json`: constrain `PYTHON_VERSION` updates to major.minor only (`/^\d+\.\d+$/`), same as `ALPINE_VERSION`. Prevents Renovate proposing pre-release or Windows-variant tags like `3.15.0b3-windowsservercore-ltsc2025` which don't exist as valid Alpine-based Python images.
+
 ## 2026-06-27 (continued 4)
 
 ### Fixed
