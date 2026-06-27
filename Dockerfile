@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:latest
 
-ARG ALPINE_VERSION=3.24
+ARG ALPINE_VERSION=3.24.1
 ARG PYTHON_VERSION=3.14
 
 FROM python:${PYTHON_VERSION}-alpine${ALPINE_VERSION} AS base
