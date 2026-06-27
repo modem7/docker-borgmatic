@@ -606,11 +606,11 @@ commands:
 
 ## KeePassXC credential support
 
-borgmatic supports retrieving secrets from a KeePass database via the `{credential keepassxc ...}` syntax. Because Alpine's `keepassxc` package pulls in the full Qt6 GUI stack (~150 MB), this image ships an **opt-in shim** instead — a lightweight Python script backed by `pykeepass` and `secretstorage` that implements the exact CLI interface borgmatic expects.
+borgmatic supports retrieving secrets from a KeePass database via the `{credential keepassxc ...}` syntax. Because Alpine's `keepassxc` package pulls in the full Qt6 GUI stack (~150 MB), this image ships an **opt-in shim** instead — a lightweight Python script backed by `pykeepass` that implements the exact CLI interface borgmatic expects.
 
-Two backends are supported:
+### Quick setup
 
-**File-based** — reads directly from a `.kdbx` file mounted into the container:
+Mount the init script at startup:
 
 ```yaml
 services:
@@ -621,29 +621,15 @@ services:
       - /path/to/your/passwords.keyx:/run/secrets/keepass.keyx:ro  # optional key file
 ```
 
+Configure borgmatic:
+
 ```yaml
 keepassxc:
     database: /etc/borgmatic/passwords.kdbx
-    ask_for_password: false
+    ask_for_password: false   # required for unattended/cron backups
     key_file: /run/secrets/keepass.keyx
 
 encryption_passphrase: "{credential keepassxc /etc/borgmatic/passwords.kdbx MyBorgEntry}"
-```
-
-**Secret service** — connects to KeePassXC running on the host via a mounted D-Bus session socket:
-
-```yaml
-services:
-  borgmatic:
-    volumes:
-      - ./data/borgscripts/init-keepassxc-cli.sh:/custom-cont-init.d/init-keepassxc-cli.sh:ro
-      - /run/user/1000/bus:/run/dbus/session_bus_socket:ro
-    environment:
-      - DBUS_SESSION_BUS_ADDRESS=unix:path=/run/dbus/session_bus_socket
-```
-
-```yaml
-encryption_passphrase: "{credential keepassxc secret-service MyBorgEntry}"
 ```
 
 See [`data/borgscripts/KEEPASSXC-CLI.md`](data/borgscripts/KEEPASSXC-CLI.md) for full setup instructions, security notes, and database hook examples.

@@ -129,69 +129,23 @@ host path not included in your backup source) and mount it read-only.
 
 ---
 
-## Secret Service integration (host D-Bus)
+## Limitations
 
-borgmatic supports `{credential keepassxc secret-service <label>}` which
-retrieves credentials via the D-Bus Secret Service API — the same mechanism
-desktop apps use to talk to a running KeePassXC or GNOME Keyring instance.
+### Secret Service integration is not supported
 
-This works in Docker by mounting the **host's D-Bus session socket** into
-the container. The shim uses [`secretstorage`](https://github.com/mitya57/secretstorage)
-with [`jeepney`](https://jeepney.readthedocs.io/) (both pure Python, no system
-packages) to connect to it.
+borgmatic supports a `{credential keepassxc secret-service <key>}` syntax that
+retrieves credentials via the D-Bus Secret Service API — the mechanism desktop
+apps use to talk to a running KeePassXC or GNOME Keyring instance.
 
-### Requirements on the host
+This does **not** work in a headless Docker container. The Secret Service API
+requires a running D-Bus session bus and a Secret Service provider (KeePassXC
+GUI or `gnome-keyring-daemon`) — neither of which exist in a container, and
+providing them would pull in the full Qt6/GTK desktop stack that this shim
+exists to avoid.
 
-- KeePassXC running with **Secret Service integration enabled**
-  (Settings → Secret Service Integration → Enable)
-- The database unlocked before the borgmatic container starts
-
-### Volume mount
-
-The Secret Service API runs on the **session bus** (per-user), not the system
-bus. The session socket location depends on your system:
-
-| Init system | Typical path |
-|---|---|
-| systemd | `/run/user/1000/bus` (replace `1000` with your UID) |
-| Non-systemd | `/var/run/dbus/session_bus_socket` or check `$DBUS_SESSION_BUS_ADDRESS` |
-
-```yaml
-services:
-  borgmatic:
-    volumes:
-      - ./data/borgscripts/init-keepassxc-cli.sh:/custom-cont-init.d/init-keepassxc-cli.sh:ro
-      # Mount the host session bus socket — adjust path for your system
-      - /run/user/1000/bus:/run/dbus/session_bus_socket:ro
-    environment:
-      - DBUS_SESSION_BUS_ADDRESS=unix:path=/run/dbus/session_bus_socket
-```
-
-### borgmatic config
-
-```yaml
-encryption_passphrase: "{credential keepassxc secret-service MyBorgEntry}"
-```
-
-Where `MyBorgEntry` is the **label** of the item as it appears in KeePassXC's
-secret service (usually the entry title).
-
-### Verify
-
-```console
-docker exec -it borgmatic keepassxc-cli show --secret-service MyBorgEntry
-```
-
-Should print the password without prompting.
-
-### Notes
-
-- The container connects to KeePassXC running on the **host** — no KeePass
-  process runs inside the container itself.
-- If the collection is locked (KeePassXC database closed), the shim exits
-  with an error. Ensure KeePassXC is unlocked before backups run.
-- For fully unattended/scheduled backups the file-based approach with a key
-  file is simpler and has no dependency on a running desktop application.
+**For unattended Docker backups, use the key file approach** (`ask_for_password:
+false` + `key_file`). It requires no interactive prompt and no running desktop
+environment.
 
 ---
 
