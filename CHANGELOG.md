@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-06-27 (continued 7)
+
+### Changed
+
+- Reorder Dockerfile layers for better cache utilisation: `apk` packages now install before S6 overlay is added, and S6 is extracted in its own `RUN` step. Previously a S6 version bump invalidated the entire apk + pip chain; now each concern caches independently.
+- Use `--mount=type=cache,id=apk-${TARGETARCH}` for the `apk` step (consistent with the existing pip cache mount).
+
 ## 2026-06-27 (continued 6)
 
 ### Fixed
