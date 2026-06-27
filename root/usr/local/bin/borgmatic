@@ -1,4 +1,4 @@
-#!/command/with-contenv bash
+#!/usr/bin/env bash
 # Wrapper around the borgmatic binary.
 # Warns when borgmatic is invoked directly rather than via borgmatic-start,
 # which means SIGTERM/INT/HUP signals will not be forwarded gracefully.
