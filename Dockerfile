@@ -14,6 +14,7 @@ ENV S6_OVERLAY_ARCH=x86_64
 FROM base AS base-arm64
 ENV S6_OVERLAY_ARCH=aarch64
 
+# hadolint ignore=DL3006
 FROM base-${TARGETARCH}${TARGETVARIANT}
 
 ARG S6_OVERLAY_VERSION=3.2.3.0
@@ -27,7 +28,7 @@ ENV LANG='en_US.UTF-8'                      \
 
 # Install system packages first — this layer is independent of S6 and borgmatic
 # versions, so it stays cached across S6 bumps and requirements.txt changes.
-# hadolint ignore=DL3005,DL3019,DL3059
+# hadolint ignore=DL3005,DL3018,DL3019,DL3059
 RUN --mount=type=cache,id=apk-${TARGETARCH},target=/etc/apk/cache \
     apk upgrade -U && \
     apk add -U          \
