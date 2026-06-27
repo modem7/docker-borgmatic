@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-06-27 (continued 5)
+
+### Fixed
+
+- `renovate.json`: constrain `ALPINE_VERSION` updates to major.minor only (`/^\d+\.\d+$/`). Python Docker Hub images use `python:X.Y-alpineA.B` tags — patch-level Alpine versions like `3.24.1` don't exist as Python image variants, causing build failures.
+
 ## 2026-06-27 (continued 4)
 
 ### Fixed

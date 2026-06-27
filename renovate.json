@@ -23,7 +23,8 @@
       "matchStrings": ["ARG ALPINE_VERSION=(?<currentValue>[0-9.]+)"],
       "depNameTemplate": "alpine",
       "datasourceTemplate": "docker",
-      "versioningTemplate": "loose"
+      "versioningTemplate": "loose",
+      "allowedVersions": "/^\\d+\\.\\d+$/"
     },
     {
       "fileMatch": ["^Dockerfile$"],
