@@ -27,6 +27,7 @@ ENV LANG='en_US.UTF-8'                      \
 
 # Install system packages first — this layer is independent of S6 and borgmatic
 # versions, so it stays cached across S6 bumps and requirements.txt changes.
+# hadolint ignore=DL3005,DL3019,DL3059
 RUN --mount=type=cache,id=apk-${TARGETARCH},target=/etc/apk/cache \
     apk upgrade -U && \
     apk add -U          \
@@ -51,12 +52,14 @@ RUN --mount=type=cache,id=apk-${TARGETARCH},target=/etc/apk/cache \
         tzdata              \
         xxhash
 
+# hadolint ignore=DL3059
 # Add S6 Overlay — separate layer so S6 bumps don't invalidate the apk layer
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_OVERLAY_ARCH}.tar.xz /tmp/s6-overlay.tar.xz
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
 
+# hadolint ignore=DL3059
 RUN <<EOF
     set -xe
     tar -C / -Jxpf /tmp/s6-overlay.tar.xz
