@@ -446,7 +446,7 @@ docker run --rm -it \
   -v ./data/borgmatic.d:/etc/borgmatic.d/ \
   -v ./data/.config/borg:/root/.config/borg \
   -e BORG_PASSPHRASE=changeme \
-  ghcr.io/borgmatic-collective/borgmatic \
+  modem7/borgmatic-docker \
   borgmatic list
 ```
 
