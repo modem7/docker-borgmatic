@@ -18,14 +18,17 @@ steps:
       - hadolint Dockerfile
 
   # Derives image tags from the pinned borgmatic/borg versions in
-  # requirements.txt (e.g. "latest,2.1.6-1.4.4") so published tags track
-  # what's actually in the image, not just a floating "latest".
+  # requirements.txt (e.g. "latest" + "2.1.6-1.4.4") so published tags
+  # track what's actually in the image, not just a floating "latest".
+  # plugin-docker-buildx's tags_file splits strictly on newline, not
+  # comma (unlike thegeeklab/drone-docker-buildx, which this repo's old
+  # .drone.yml worked around by writing a single comma-separated line).
   - name: prepare-tags
     image: alpine
     commands:
       - borgmatic_ver=$(grep 'borgmatic' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
       - borg_ver=$(grep 'borgbackup' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-      - printf "latest,%s-%s" "$borgmatic_ver" "$borg_ver" > .tags
+      - printf "latest\n%s-%s\n" "$borgmatic_ver" "$borg_ver" > .tags
       - echo "Tags to publish:" && cat .tags
 
   - name: build-and-push

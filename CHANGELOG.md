@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-07-14 (continued)
+
+### Fixed
+
+- `.woodpecker.yml`: `prepare-tags` now writes newline-separated tags to `.tags` instead of a single comma-separated line. `woodpecker-ci/plugin-docker-buildx`'s `tags_file` splits strictly on `\n` (unlike `thegeeklab/drone-docker-buildx`, which needed the opposite — a single comma-separated line, per the `.drone.yml` fix below from 2026-06-27). The comma-separated form was read as one literal tag (`latest,2.1.6-1.4.4`), which Docker rejected as an invalid reference.
+
 ## 2026-07-14
 
 ### Changed
