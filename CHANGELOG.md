@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
  
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## 2026-07-14
+
+### Changed
+
+- CI migrated from Drone to Woodpecker: `.drone.yml` replaced by `.woodpecker.yml`. Same multi-arch (`linux/amd64`, `linux/arm64`) build/push to `modem7/borgmatic-docker`, Docker Hub README sync, and dynamically-generated tags (`latest,<borgmatic_ver>-<borg_ver>` from `requirements.txt`), now via `woodpeckerci/plugin-docker-buildx` and a `hadolint` lint step. Also now builds on every push to `master` (previously the Drone pipeline only ran on a `custom` trigger event), plus Slack build notifications on success/failure.
+- README build-status badge now points at Woodpecker instead of Drone.
+
 ## 2026-06-27 (continued 9)
 
 ### Added
