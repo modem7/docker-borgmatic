@@ -2,7 +2,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/modem7/borgmatic-docker)](https://hub.docker.com/r/modem7/borgmatic-docker)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/modem7/borgmatic-docker/latest)](https://hub.docker.com/r/modem7/borgmatic-docker)
-[![Build Status](https://drone.modem7.com/api/badges/modem7/docker-borgmatic/status.svg)](https://drone.modem7.com/modem7/docker-borgmatic)
+[![status-badge](https://woodpecker.modem7.com/api/badges/6/status.svg?events=push%2Cmanual)](https://woodpecker.modem7.com/repos/6)
 [![GitHub last commit](https://img.shields.io/github/last-commit/modem7/docker-borgmatic)](https://github.com/modem7/docker-borgmatic)
 [![User Guide](https://img.shields.io/badge/User_Guide-OmegaWiki-informational?style=flat&logo=bookstack)](https://www.modem7.com/books/docker-backup/page/backup-docker-using-borgmatic)
 
