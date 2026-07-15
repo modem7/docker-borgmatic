@@ -32,10 +32,10 @@ that it is talking to a Python script instead of the real binary. The
 (`keepassxc-cli`) since the shim is installed at the same path.
 
 Supported flags: `--show-protected`, `--attributes`/`-a`, `--no-password`,
-`--key-file`/`-k`, `--yubikey` (accepted silently — hardware tokens are not
-supported). Attribute lookup covers `Password`, `UserName`, `URL`, `Notes`,
-`Title`, and custom attributes. Group-path style entry names
-(`Group/Entry`) are supported.
+`--key-file`/`-k`. `--yubikey` is rejected with an error — hardware tokens
+are not supported. The only supported attribute is `Password`, matching the
+only attribute borgmatic's KeePassXC hook ever requests; any other value
+errors out. Group-path style entry names (`Group/Entry`) are supported.
 
 ---
 
