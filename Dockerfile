@@ -17,7 +17,7 @@ ENV S6_OVERLAY_ARCH=aarch64
 # hadolint ignore=DL3006
 FROM base-${TARGETARCH}${TARGETVARIANT}
 
-ARG S6_OVERLAY_VERSION=3.2.3.1
+ARG S6_OVERLAY_VERSION=3.2.3.2
 
 ENV LANG='en_US.UTF-8'                      \
     LANGUAGE='en_US.UTF-8'                  \
