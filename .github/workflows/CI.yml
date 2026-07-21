@@ -139,7 +139,7 @@ jobs:
         run: docker save ${{ env.IMAGE }} | gzip > /tmp/borgmatic-image.tar.gz
 
       - name: Upload image artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: borgmatic-image
           path: /tmp/borgmatic-image.tar.gz
