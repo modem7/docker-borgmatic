@@ -10,13 +10,10 @@ when:
         - root/**
         - .woodpecker.yml
 
+# Dockerfile lint and functional testing happen in
+# .github/workflows/CI.yml, not here - this pipeline only builds and
+# pushes images.
 steps:
-  - name: lint-dockerfile
-    image: hadolint/hadolint:latest-alpine
-    commands:
-      - hadolint --version
-      - hadolint Dockerfile
-
   # Derives image tags from the pinned borgmatic/borg versions in
   # requirements.txt (e.g. "latest" + "2.1.6-1.4.4") so published tags
   # track what's actually in the image, not just a floating "latest".
@@ -34,7 +31,7 @@ steps:
   - name: build-and-push
     image: woodpeckerci/plugin-docker-buildx
     privileged: true
-    depends_on: [lint-dockerfile, prepare-tags]
+    depends_on: [prepare-tags]
     settings:
       repo: modem7/borgmatic-docker
       dockerfile: Dockerfile
