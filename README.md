@@ -396,13 +396,17 @@ Mounting a Borg archive requires extra privileges. Use the provided restore comp
 
 ```console
 docker compose down
-docker compose -f docker-compose.yml -f docker-compose.restore.yml run borgmatic
+docker compose -f docker-compose.yml -f docker-compose.restore.yml run borgmaticrestore
 ```
 
-The restore compose override sets `command: /bin/sh`, so the container drops you straight into a shell. If you need to attach to an already-running container instead:
+Run the `borgmaticrestore` service, not `borgmatic`: only the former gets the FUSE privileges, so mounting from the regular service fails with a "load Fuse module" error.
+
+`BORG_RESTORE` in `.env` is the host directory where restored files land. It is mounted at `/mnt/restore` inside the container, so don't mount an archive there.
+
+The restore compose override sets `command: /bin/bash`, so the container drops you straight into a shell. If you need to attach to an already-running container instead:
 
 ```console
-docker exec -it borgmatic /bin/bash
+docker exec -it Borg-restore /bin/bash
 ```
 
 Once inside, mount the archive, copy your files, then clean up:
@@ -412,14 +416,14 @@ Once inside, mount the archive, copy your files, then clean up:
 borg list /mnt/borg-repository
 
 # mount a specific archive (or the whole repo to browse all archives)
-mkdir -p /mnt/restore
-borg mount /mnt/borg-repository::archive-name /mnt/restore
+mkdir -p /tmp/restore
+borg mount /mnt/borg-repository::archive-name /tmp/restore
 
-# copy files back to their original location or inspect them
-cp -a /mnt/restore/path/to/file /original/path/
+# copy files into the restore target (BORG_RESTORE on the host) or inspect them
+cp -a /tmp/restore/path/to/file /mnt/restore/original/path/
 
 # unmount and exit when done
-borg umount /mnt/restore
+borg umount /tmp/restore
 exit
 ```
 
