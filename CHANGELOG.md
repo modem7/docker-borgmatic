@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Fixed (image)
 
+- `svc-cron/finish`: no longer overwrites the container exit code when S6 stops crond with SIGTERM at shutdown. Previously every one-shot command (`docker run IMAGE borgmatic ...`) exited 143 whatever borgmatic returned; the command's own exit code is now kept. `docker stop` now exits 0 instead of 143. A crond crash from any other signal still sets the exit code.
+
 - `Dockerfile`: `S6_CMD_ARG0=/command/with-contenv` so a command given on the command line (`docker run IMAGE borgmatic ...`, `docker compose run ...`, the restore shell) receives the container environment, including `BORG_PASSPHRASE` and values injected via `FILE__*`. Previously S6 did not pass it and borgmatic failed with "Cannot acquire a passphrase".
 
 ## 2026-07-14 (continued)
