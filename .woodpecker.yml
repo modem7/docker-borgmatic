@@ -7,6 +7,7 @@ when:
       include:
         - Dockerfile
         - requirements.txt
+        - requirements.in
         - root/**
         - .woodpecker.yml
 
@@ -15,7 +16,7 @@ when:
 # pushes images.
 steps:
   # Derives image tags from the pinned borgmatic/borg versions in
-  # requirements.txt (e.g. "latest" + "2.1.6-1.4.4") so published tags
+  # requirements.in (e.g. "latest" + "2.1.6-1.4.4") so published tags
   # track what's actually in the image, not just a floating "latest".
   # plugin-docker-buildx's tags_file splits strictly on newline, not
   # comma (unlike thegeeklab/drone-docker-buildx, which this repo's old
@@ -23,8 +24,8 @@ steps:
   - name: prepare-tags
     image: alpine
     commands:
-      - borgmatic_ver=$(grep 'borgmatic' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-      - borg_ver=$(grep 'borgbackup' requirements.txt | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+      - borgmatic_ver=$(grep 'borgmatic' requirements.in | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+      - borg_ver=$(grep 'borgbackup' requirements.in | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
       - printf "latest\n%s-%s\n" "$borgmatic_ver" "$borg_ver" > .tags
       - echo "Tags to publish:" && cat .tags
 
