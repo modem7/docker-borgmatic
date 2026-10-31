@@ -405,6 +405,8 @@ docker compose -f docker-compose.yml -f docker-compose.restore.yml run --rm borg
   borgmatic extract --archive latest --path mnt/source/path/to/file --destination /mnt/restore
 ```
 
+Archive names include the hostname by default (`{hostname}-{now}`), so `--archive latest` only finds archives created under the same hostname. The restore service sets `hostname: borgmatic` to match the main service. If you changed `hostname` in your main compose file, change it here too, or make borgmatic independent of it by setting `archive_hostname: borgmatic` (Borg 1.4.5+) in your borgmatic config, or by using an explicit `archive_name_format` as in the example configs.
+
 Drop `--path` to extract the whole archive, or repeat it for several paths. Omit `--destination` and files are extracted into the container's working directory instead of `BORG_RESTORE`, so always set it. `--archive` takes `latest`, an archive name, or a hash; list archives with `borgmatic repo-list`.
 
 `extract` restores files only. Database dumps are restored with [`borgmatic restore`](https://torsion.org/borgmatic/reference/command-line/actions/restore/), see [Native database backup](#native-database-backup-borgmatic).
@@ -463,13 +465,20 @@ all init scripts, executes borgmatic, then shuts down. The
 `crond crashed with signal 15` message at the end is expected and harmless —
 it is S6 cleanly stopping crond when borgmatic exits.
 
+Two things keep the command consistent with the scheduled backup:
+
+- `--hostname borgmatic` (or whatever your main service uses): with borgmatic's default archive naming the hostname is part of the archive name, so without it `latest`, `list` and `prune` do not see archives created by the scheduled container. `archive_hostname` in the borgmatic config or an explicit `archive_name_format` removes the dependency.
+- `-e CRON=false`, so the one-shot container does not schedule its own backups.
+
 ```console
 docker run --rm -it \
+  --hostname borgmatic \
   -v /home:/mnt/source:ro \
   -v ./data/repository:/mnt/borg-repository \
   -v ./data/borgmatic.d:/etc/borgmatic.d/ \
   -v ./data/.config/borg:/root/.config/borg \
   -e BORG_PASSPHRASE=changeme \
+  -e CRON=false \
   modem7/borgmatic-docker \
   borgmatic list
 ```
