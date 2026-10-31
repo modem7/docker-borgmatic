@@ -5,12 +5,16 @@ on:
     paths:
       - Dockerfile
       - requirements.txt
+      - requirements.in
+      - scripts/**
       - root/**
       - .github/workflows/CI.yml
   pull_request:
     paths:
       - Dockerfile
       - requirements.txt
+      - requirements.in
+      - scripts/**
       - root/**
       - .github/workflows/CI.yml
   workflow_dispatch:
@@ -26,9 +30,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.1
 
+      - name: Verify lockfile matches requirements.in
+        run: bash scripts/check-lock-fresh.sh
+
       - name: Verify pinned packages are resolvable
         run: |
-          req_file="requirements.txt"
+          req_file="requirements.in"
           index_url=$(grep -Eo '^--extra-index-url[[:space:]]+\S+' "$req_file" | awk '{print $2}')
           [ -n "$index_url" ] || { echo "::error::No --extra-index-url found in $req_file"; exit 1; }
           index_url="${index_url%/}"

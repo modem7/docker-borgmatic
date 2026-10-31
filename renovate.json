@@ -3,5 +3,11 @@
   "extends": [
     "github>modem7/renovate-config",
     "github>modem7/renovate-config:docker"
-  ]
+  ],
+  "pip_requirements": {
+    "enabled": false
+  },
+  "pip-compile": {
+    "managerFilePatterns": ["/(^|/)requirements\\.txt$/"]
+  }
 }
