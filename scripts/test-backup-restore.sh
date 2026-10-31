@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Round-trip test: backup then restore through /init (S6) and the
 # repo compose files, the same path users take.
-# Usage: test-restore.sh <image-tag>
+# Usage: test-backup-restore.sh <image-tag>
 # Needs docker, the compose plugin and passwordless sudo
 # (the container writes root-owned files).
 set -euo pipefail
@@ -44,7 +44,7 @@ end_stage() {
 err() {
   failures=$((failures + 1))
   if in_ci; then
-    echo "::error title=test-restore::$1"
+    echo "::error title=test-backup-restore::$1"
   else
     echo "ERROR: $1" >&2
   fi
@@ -52,7 +52,7 @@ err() {
 
 notice() {
   if in_ci; then
-    echo "::notice title=test-restore::$1"
+    echo "::notice title=test-backup-restore::$1"
   else
     echo "NOTE: $1"
   fi
