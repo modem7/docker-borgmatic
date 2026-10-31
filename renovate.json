@@ -4,16 +4,6 @@
     "github>modem7/renovate-config",
     "github>modem7/renovate-config:docker"
   ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": ["/^Dockerfile$/"],
-      "matchStrings": ["ARG UV_VERSION=(?<currentValue>[0-9.]+)"],
-      "depNameTemplate": "astral-sh/uv",
-      "datasourceTemplate": "github-releases",
-      "versioningTemplate": "semver"
-    }
-  ],
   "pip_requirements": {
     "enabled": false
   },
