@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Fixed
 
-- README "FUSE restore": use the `borgmaticrestore` service (the plain `borgmatic` service lacks the FUSE privileges), document `BORG_RESTORE` as the host restore destination, mount archives at `/tmp/restore` instead of over the `/mnt/restore` bind mount, and correct the shell (`/bin/bash`) and container name (`Borg-restore`). Reported upstream in borgmatic-collective/docker-borgmatic#505.
+- README "FUSE restore": use the `borgmaticrestore` service (the plain `borgmatic` service lacks the FUSE privileges), document `BORG_RESTORE` as the host restore destination, mount archives at `/tmp/restore` instead of over the `/mnt/restore` bind mount, correct the shell (`/bin/bash`) and container name (`Borg-restore`), and add a no-FUSE `borgmatic extract` restore example plus `borgmatic mount`/`umount`. Section renamed "Restoring files". Reported upstream in borgmatic-collective/docker-borgmatic#505.
 
 ## 2026-07-14 (continued)
 

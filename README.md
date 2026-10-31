@@ -390,44 +390,63 @@ See the [borgmatic soft failure docs](https://torsion.org/borgmatic/reference/co
 
 ---
 
-## FUSE restore
+## Restoring files
 
-Mounting a Borg archive requires extra privileges. Use the provided restore compose override:
+Restores use the `borgmaticrestore` service from `docker-compose.restore.yml`. Set `BORG_RESTORE` in `.env` to the host directory where restored files should land; it is mounted at `/mnt/restore` in the container. Run `borgmaticrestore`, not `borgmatic`: the regular service has no `/mnt/restore` mount and no FUSE privileges.
+
+Archive paths mirror what was backed up, without a leading slash. Sources mounted at `/mnt/source` in the container are stored as `mnt/source/...`.
+
+### Extract (no FUSE needed)
+
+Run [`borgmatic extract`](https://torsion.org/borgmatic/how-to/extract-a-backup/) as a one-shot command. It reads the repository and passphrase from your borgmatic config:
+
+```console
+docker compose -f docker-compose.yml -f docker-compose.restore.yml run --rm borgmaticrestore \
+  borgmatic extract --archive latest --path mnt/source/path/to/file --destination /mnt/restore
+```
+
+Drop `--path` to extract the whole archive, or repeat it for several paths. Omit `--destination` and files are extracted into the container's working directory instead of `BORG_RESTORE`, so always set it. `--archive` takes `latest`, an archive name, or a hash; list archives with `borgmatic repo-list`.
+
+`extract` restores files only. Database dumps are restored with [`borgmatic restore`](https://torsion.org/borgmatic/reference/command-line/actions/restore/), see [Native database backup](#native-database-backup-borgmatic).
+
+### Browse an archive (FUSE)
+
+To browse an archive and copy files selectively, open a shell in the restore container:
 
 ```console
 docker compose down
 docker compose -f docker-compose.yml -f docker-compose.restore.yml run borgmaticrestore
 ```
 
-Run the `borgmaticrestore` service, not `borgmatic`: only the former gets the FUSE privileges, so mounting from the regular service fails with a "load Fuse module" error.
-
-`BORG_RESTORE` in `.env` is the host directory where restored files land. It is mounted at `/mnt/restore` inside the container, so don't mount an archive there.
-
-The restore compose override sets `command: /bin/bash`, so the container drops you straight into a shell. If you need to attach to an already-running container instead:
+The override sets `command: /bin/bash`, so you land in a shell. To attach to an already-running restore container instead:
 
 ```console
 docker exec -it Borg-restore /bin/bash
 ```
 
-Once inside, mount the archive, copy your files, then clean up:
+Then mount the archive somewhere other than `/mnt/restore`, which is already the bind-mounted restore destination:
 
 ```console
 # list available archives
-borg list /mnt/borg-repository
+borgmatic repo-list
 
-# mount a specific archive (or the whole repo to browse all archives)
+# mount an archive (omit --archive to mount all archives)
 mkdir -p /tmp/restore
-borg mount /mnt/borg-repository::archive-name /tmp/restore
+borgmatic mount --archive latest --mount-point /tmp/restore
 
 # copy files into the restore target (BORG_RESTORE on the host) or inspect them
-cp -a /tmp/restore/path/to/file /mnt/restore/original/path/
+cp -a /tmp/restore/mnt/source/path/to/file /mnt/restore/
 
 # unmount and exit when done
-borg umount /tmp/restore
+borgmatic umount --mount-point /tmp/restore
 exit
 ```
 
-The required capabilities (`SYS_ADMIN`, `/dev/fuse`, AppArmor/SELinux options) are pre-configured in `docker-compose.restore.yml`.
+Plain Borg works too: `borg mount /mnt/borg-repository::archive-name /tmp/restore` and `borg umount /tmp/restore`.
+
+The required capabilities (`SYS_ADMIN`, `/dev/fuse`, AppArmor/SELinux options) are pre-configured in `docker-compose.restore.yml`; mounting from the regular `borgmatic` service fails with a "load Fuse module" error.
+
+### Stale lock
 
 If Borg has a stale lock from a previously interrupted backup:
 
