@@ -4,6 +4,18 @@
     "github>modem7/renovate-config",
     "github>modem7/renovate-config:docker"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Keep uv.toml python-version in sync with ARG PYTHON_VERSION in the Dockerfile",
+      "managerFilePatterns": ["/^uv\\.toml$/"],
+      "matchStrings": ["python-version = \"(?<currentValue>[0-9.]+)\""],
+      "depNameTemplate": "PYTHON",
+      "packageNameTemplate": "python",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "loose"
+    }
+  ],
   "pip_requirements": {
     "enabled": false
   },
